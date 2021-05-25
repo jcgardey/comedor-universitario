@@ -1,0 +1,21 @@
+export const ADD_MENU_SUCCESS = 'ADD_MENU_SUCCESS';
+export const GET_MENUS = 'GET_MENUS';
+export const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
+export const GET_MENU_COMPONENTS = 'GET_MENU_COMPONENTS';
+export const FORM_FIELD_ERROR = 'FORM_FIELD_ERROR';
+
+export const ADD_VALUE_TO_FIELD = 'ADD_VALUE_TO_FIELD';
+export const REMOVE_VALUE_FROM_FIELD = 'ADD_VALUE_FROM_FIELD';
+export const CLEAR_FORM = 'CLEAR FORM';
+
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const USER_LOADED = 'USER_LOADED';
+
+
+
+
+
+
