@@ -1,8 +1,10 @@
 import React from 'react';
 import NavigationBarAnnonymousUser from './nav/NavigationBarAnnonymousUser';
 
-export default ({}) => (
+const LandingPage = () => (
   <>
-    <NavigationBarAnnonymousUser/>  
+    <NavigationBarAnnonymousUser />
+    <p>Landing Page</p>
   </>
 );
+export default LandingPage;
