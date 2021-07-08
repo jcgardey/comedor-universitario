@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import NavigationBarAnnonymousUser from './nav/NavigationBarAnnonymousUser';
 import {
   Container,
@@ -10,26 +11,24 @@ import {
   PrimaryButton,
   FieldError,
 } from './Layout';
-import { connect } from 'react-redux';
-import { login } from '../actions/auth';
-import { updateFormField } from '../actions/form';
 import { Redirect } from 'react-router';
+import { login } from '../actions/auth';
 
 export const Login = () => {
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const dispatch = useDispatch();
+
+  const auth = useSelector((state) => state.auth);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    this.props.login(dni, password);
+    dispatch(login(dni, password));
   };
 
-  const onBlur = (e) => {
-    this.props.updateFormField(e.target.name, e.target.value, 'login');
-  };
-
-  if (this.props.auth.isAuthenticated) {
+  if (auth.isAuthenticated) {
     return <Redirect to="/" />;
   }
 
@@ -47,14 +46,18 @@ export const Login = () => {
             )}
             <FormField>
               <Label>DNI</Label>
-              <TextInput type="text" name="dni" onBlur={onBlur}></TextInput>
+              <TextInput
+                type="text"
+                name="dni"
+                onChange={(e) => setDni(e.target.value)}
+              ></TextInput>
             </FormField>
             <FormField>
               <Label>Clave</Label>
               <TextInput
                 type="password"
                 name="password"
-                onBlur={onBlur}
+                onChange={(e) => setPassword(e.target.value)}
               ></TextInput>
             </FormField>
             <FormField>
@@ -67,10 +70,4 @@ export const Login = () => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  form: state.form.login,
-});
-
-//export default connect(mapStateToProps, { login, updateFormField })(Login);
 export default Login;
