@@ -17,7 +17,6 @@ import { login } from '../actions/auth';
 export const Login = () => {
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
   const dispatch = useDispatch();
 
@@ -29,7 +28,7 @@ export const Login = () => {
   };
 
   if (auth.isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/new_menu" />;
   }
 
   return (
@@ -39,7 +38,7 @@ export const Login = () => {
         <Title>Ingresar</Title>
         <form onSubmit={onSubmit}>
           <FormGroup>
-            {error == 'token_not_valid' && (
+            {auth.error == 'token_not_valid' && (
               <FieldError>
                 Su sesi&oacute;n ha expirado, ingrese nuevamente
               </FieldError>

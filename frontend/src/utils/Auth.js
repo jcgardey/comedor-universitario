@@ -2,30 +2,11 @@ export const SITE_ADMIN = 'site_admin';
 export const SUPER_ADMIN = 'super_admin';
 export const CLIENT = 'client';
 
+const isUserInGroup = (user, groupName) =>
+  user.groups
+    ? user.groups.filter((group) => group.name === groupName).length > 0
+    : false;
 
-class Auth {
+export const isUserSiteAdmin = (user) => isUserInGroup(user, SITE_ADMIN);
 
-  constructor(user) {
-    this.user = user;
-  }
-
-
-  isUserAuthenticated() {
-    return this.user.isAuthenticated;
-  }
-
-  isUserInGroup(groupName) {
-    return this.user.groups ? this.user.groups.filter(group => group.name === groupName).length > 0 : false;
-  }
-
-  isUserSiteAdmin() {
-    return this.isUserInGroup(SITE_ADMIN);
-  }
-
-  isUserSuperAdmin() {
-    return this.isUserInGroup(SUPER_ADMIN);
-  }
-
-}
-
-export default Auth;
+export const isUserSuperAdmin = (user) => isUserInGroup(user, SUPER_ADMIN);

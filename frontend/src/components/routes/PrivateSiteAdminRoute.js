@@ -1,21 +1,22 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
-import Auth from '../../utils/Auth';
+import { Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { isUserSiteAdmin } from '../../utils/auth';
 
+const PrivateSiteAdminRoute = ({ component: Component, ...rest }) => {
+  const user = useSelector((state) => state.auth);
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        console.log('llega', user);
+        if (!user.isAuthenticated || !isUserSiteAdmin(user)) {
+          return <Redirect to="/login" />;
+        }
+        return <Component {...props} />;
+      }}
+    />
+  );
+};
 
-const PrivateSiteAdminRoute = ({component: Component, user, ...rest }) => (
-  <Route {...rest} render={props => {
-    let authService = new Auth(user);
-    if (!authService.isUserAuthenticated() || !authService.isUserSiteAdmin()){
-      return <Redirect to="/login"/>;
-    }
-    return <Component {...props}/>;     
-  }}/>
-);
-
-const mapStateToProps = state => ({
-  user: state.auth 
-});
-
-export default connect(mapStateToProps)(PrivateSiteAdminRoute);
+export default PrivateSiteAdminRoute;

@@ -6,16 +6,11 @@ import { Provider } from 'react-redux';
 import NewMenu from './menu/NewMenu';
 import Login from './Login';
 import { GlobalStyles } from '../styles/GlobalStyles';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { getLoggedUser } from '../actions/auth';
 import PrivateSiteAdminRoute from './routes/PrivateSiteAdminRoute';
-import HomeRoute from './routes/HomeRoute';
 import CalendarPage from './calendar/CalendarPage';
+import HomeRoute from './routes/HomeRoute';
 
 const App = () => {
   useEffect(() => {
