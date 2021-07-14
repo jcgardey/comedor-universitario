@@ -11,7 +11,7 @@ import {
   PrimaryButton,
   FieldError,
 } from './Layout';
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router';
 import { login } from '../actions/auth';
 
 export const Login = () => {
@@ -19,6 +19,7 @@ export const Login = () => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const auth = useSelector((state) => state.auth);
 
@@ -28,7 +29,7 @@ export const Login = () => {
   };
 
   if (auth.isAuthenticated) {
-    return <Redirect to="/new_menu" />;
+    history.push('/');
   }
 
   return (

@@ -15,7 +15,6 @@ const HomeRoute = ({ ...rest }) => {
           return <LandingPage {...props} />;
         }
         if (isUserSiteAdmin(user)) {
-          console.log('llegaa');
           return <NewMenu {...props} />;
         }
       }}

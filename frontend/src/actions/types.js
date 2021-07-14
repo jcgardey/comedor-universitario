@@ -9,13 +9,6 @@ export const REMOVE_VALUE_FROM_FIELD = 'ADD_VALUE_FROM_FIELD';
 export const CLEAR_FORM = 'CLEAR FORM';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const USER_LOADED = 'USER_LOADED';
-
-
-
-
-
-

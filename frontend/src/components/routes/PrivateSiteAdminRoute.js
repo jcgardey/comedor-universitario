@@ -9,7 +9,6 @@ const PrivateSiteAdminRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) => {
-        console.log('llega', user);
         if (!user.isAuthenticated || !isUserSiteAdmin(user)) {
           return <Redirect to="/login" />;
         }
