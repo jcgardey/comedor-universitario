@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TextInput } from '../Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMenuComponentsByName } from '../../actions/menu';
+import { getMenuComponentsByNameAction } from '../../actions/menu';
 import { MenuComponentInList } from './MenuComponentInList';
 import { MenuComponentName, MenuComponentNameHighlighted } from './Style';
 import { SelectableListOption, SelectableList } from '../utils/SelectableList';
@@ -39,7 +39,7 @@ export const MenuComponentCombobox = ({ onSelect, secondaryAction }) => {
   const onTextChange = (e) => {
     setMenuComponentName(e.target.value);
     setShowOptionsList(!!e.target.value);
-    dispatch(getMenuComponentsByName(e.target.value));
+    dispatch(getMenuComponentsByNameAction(e.target.value));
   };
 
   const selectComponent = (component) => {

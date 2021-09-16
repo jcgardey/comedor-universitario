@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { createMenu } from '../../actions/menu';
+import { createMenu } from '../../services/menu';
 import {
   FormField,
   TextInput,
