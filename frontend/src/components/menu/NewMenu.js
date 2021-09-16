@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { createMenu } from '../../actions/menu';
 import {
@@ -14,77 +14,52 @@ import {
 } from '../Layout';
 import MenuComponentsSelection from './MenuComponentsSelection';
 import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
+import { useForm } from '../../hooks/useForm';
 
 const NewMenu = () => {
-  const [name, setName] = useState('');
-  const [nameErrors, setNameErrors] = useState([]);
-  const [suitableVegetarian, setSuitableVegetarian] = useState(false);
-  const [suitableCeliac, setSuitableCeliac] = useState(false);
-  const [menuComponents, setMenuComponents] = useState([]);
+  const { register, handleSubmit, values, errors } = useForm();
+  const menuComponentsField = register('menuComponents', 'array', {
+    notEmpty: { message: 'Ingrese al menos un componente' },
+  });
 
   const dispatch = useDispatch();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     dispatch(
       createMenu({
-        name: name,
-        components: menuComponents,
-        suitable_vegetarian: suitableVegetarian,
-        suitable_celiac: suitableCeliac,
+        name: values.name,
+        components: values.menuComponents,
+        suitable_vegetarian: values.suitable_vegetarian,
+        suitable_celiac: values.suitable_celiac,
       })
     );
   };
-
-  const onMenuComponentSelect = (menuComponent) =>
-    setMenuComponents([...menuComponents, menuComponent]);
-
-  const onMenuComponentDelete = (menuComponent) =>
-    setMenuComponents(
-      menuComponents.filter((each) => each.id !== menuComponent.id)
-    );
-
   return (
     <>
       <NavigationBarSiteAdminUser />
       <Container>
         <Title>Crear Men&uacute;</Title>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormGroup>
             <FormField>
               <Label>Nombre</Label>
               <TextInput
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                name="name"
+                {...register('name', 'text', {
+                  required: { message: 'El nombre es obligatorio' },
+                })}
               />
-              {nameErrors.map((error) => (
-                <FieldError>{error}</FieldError>
-              ))}
+              {errors.name && <FieldError>{errors.name.join(',')}</FieldError>}
             </FormField>
             <FormField>
-              <input
-                type="checkbox"
-                onChange={(e) => setSuitableVegetarian(e.target.checked)}
-                name="suitable_vegetarian"
-              />
+              <input {...register('suitable_vegetarian', 'checkbox')} />
               <RadioItemLabel>Apto Vegetarinos</RadioItemLabel>
             </FormField>
             <FormField>
-              <input
-                type="checkbox"
-                onChange={(e) => setSuitableCeliac(e.target.checked)}
-                name="suitable_celiac"
-              />
+              <input {...register('suitable_celiac', 'checkbox')} />
               <RadioItemLabel>Apto Celiacos</RadioItemLabel>
             </FormField>
           </FormGroup>
-          <MenuComponentsSelection
-            menuComponents={menuComponents}
-            onSelect={onMenuComponentSelect}
-            onDelete={onMenuComponentDelete}
-          />
+          <MenuComponentsSelection menuComponentsField={menuComponentsField} />
           <FormGroup style={{ backgroundColor: 'transparent' }}>
             <FormField>
               <PrimaryButton type="submit">Confirmar</PrimaryButton>

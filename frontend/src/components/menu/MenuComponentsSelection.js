@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Row, SectionTitle, FlexContainer, FormGroup } from '../Layout';
+import {
+  Row,
+  SectionTitle,
+  FlexContainer,
+  FormGroup,
+  FieldError,
+} from '../Layout';
 import styled from 'styled-components';
 import EditMenuComponent from './EditMenuComponent';
 import Modal from '../Modal';
@@ -26,21 +32,24 @@ const SelectedMenuComponent = styled(MenuComponentInList)`
   }
 `;
 
-const MenuComponentsSelection = ({
-  menuComponents,
-  onSelect,
-  onDelete,
-  className,
-}) => {
+const MenuComponentsSelection = ({ menuComponentsField, className }) => {
   const [addMenuComponent, setAddMenuComponent] = useState(false);
 
   const showComponentModal = () => setAddMenuComponent(true);
 
   const hideComponentModal = () => setAddMenuComponent(false);
 
+  const onMenuComponentSelect = (menuComponent) =>
+    menuComponentsField.onChange([...menuComponentsField.value, menuComponent]);
+
+  const onMenuComponentDelete = (menuComponent) =>
+    menuComponentsField.onChange(
+      menuComponentsField.value.filter((each) => each.id !== menuComponent.id)
+    );
+
   const onEdit = (menuComponent) => {
     hideComponentModal();
-    onSelect(menuComponent);
+    onMenuComponentSelect(menuComponent);
   };
 
   return (
@@ -48,16 +57,19 @@ const MenuComponentsSelection = ({
       <FormGroup>
         <SectionTitle>Componentes</SectionTitle>
         <MenuComponentCombobox
-          onSelect={onSelect}
+          onSelect={onMenuComponentSelect}
           secondaryAction={showComponentModal}
         />
+        {menuComponentsField.errors && (
+          <FieldError>{menuComponentsField.errors.join(',')}</FieldError>
+        )}
       </FormGroup>
       <ComponentItemsContainer>
-        {menuComponents.map((component) => (
+        {menuComponentsField.value.map((component) => (
           <SelectedMenuComponent
             key={component.id}
             component={component}
-            onDelete={() => onDelete(component)}
+            onDelete={() => onMenuComponentDelete(component)}
           />
         ))}
       </ComponentItemsContainer>
