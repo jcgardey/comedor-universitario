@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import LandingPage from '../LandingPage';
-import NewMenu from '../menu/NewMenu';
+import EditMenuPage from '../menu/EditMenuPage';
 import { useSelector } from 'react-redux';
 import { isUserSiteAdmin } from '../../utils/auth';
 
@@ -15,7 +15,7 @@ const HomeRoute = ({ ...rest }) => {
           return <LandingPage {...props} />;
         }
         if (isUserSiteAdmin(user)) {
-          return <NewMenu {...props} />;
+          return <EditMenuPage {...props} />;
         }
       }}
     />

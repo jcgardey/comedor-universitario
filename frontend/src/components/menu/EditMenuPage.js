@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { createMenu } from '../../services/menu';
 import {
   FormField,
@@ -15,24 +14,24 @@ import {
 import MenuComponentsSelection from './MenuComponentsSelection';
 import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
 import { useForm } from '../../hooks/useForm';
+import { useHistory } from 'react-router';
 
-const NewMenu = () => {
+const EditMenuPage = () => {
   const { register, handleSubmit, values, errors } = useForm();
+  const history = useHistory();
+
   const menuComponentsField = register('menuComponents', 'array', {
     notEmpty: { message: 'Ingrese al menos un componente' },
   });
 
-  const dispatch = useDispatch();
-
   const onSubmit = () => {
-    dispatch(
-      createMenu({
-        name: values.name,
-        components: values.menuComponents,
-        suitable_vegetarian: values.suitable_vegetarian,
-        suitable_celiac: values.suitable_celiac,
-      })
-    );
+    createMenu({
+      name: values.name,
+      components: values.menuComponents,
+      suitable_vegetarian: values.suitable_vegetarian,
+      suitable_celiac: values.suitable_celiac,
+    });
+    history.push('/menus');
   };
   return (
     <>
@@ -71,4 +70,4 @@ const NewMenu = () => {
   );
 };
 
-export default NewMenu;
+export default EditMenuPage;
