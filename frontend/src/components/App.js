@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import store from '../store';
 import { Provider } from 'react-redux';
-import NewMenu from './menu/NewMenu';
+import EditMenuPage from './menu/EditMenuPage';
 import Login from './Login';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { getLoggedUser } from '../actions/auth';
 import PrivateSiteAdminRoute from './routes/PrivateSiteAdminRoute';
 import CalendarPage from './calendar/CalendarPage';
 import HomeRoute from './routes/HomeRoute';
+import MenuListPage from './menu/MenuListPage';
 
 const App = () => {
   useEffect(() => {
@@ -27,7 +28,8 @@ const App = () => {
           <Switch>
             <HomeRoute exact path="/" />
             <Route path="/login" component={Login} />
-            <PrivateSiteAdminRoute path="/new_menu" component={NewMenu} />
+            <PrivateSiteAdminRoute path="/menus/new" component={EditMenuPage} />
+            <PrivateSiteAdminRoute path="/menus" component={MenuListPage} />
             <Route path="/calendar" component={CalendarPage} />
           </Switch>
         </Router>
