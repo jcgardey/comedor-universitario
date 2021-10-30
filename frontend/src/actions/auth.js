@@ -20,6 +20,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const getLoggedUser = () => (dispatch) => {
+  dispatch({ type: LOGIN_REQUEST });
   axios
     .get('/api/user')
     .then((res) => {

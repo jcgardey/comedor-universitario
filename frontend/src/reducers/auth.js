@@ -5,7 +5,7 @@ import {
   USER_LOADED,
 } from '../actions/types';
 
-export default (state = {}, action) => {
+export default (state = { loading: true }, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return {
