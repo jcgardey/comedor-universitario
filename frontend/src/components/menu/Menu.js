@@ -6,10 +6,8 @@ import { MenuComponentInList } from './MenuComponentInList';
 
 const MenuContainer = styled.div`
   width: 100%;
-  background-color: white;
   border-radius: 5px;
   position: relative;
-  margin: 1em 0;
 `;
 
 const MenuComponents = styled.div`

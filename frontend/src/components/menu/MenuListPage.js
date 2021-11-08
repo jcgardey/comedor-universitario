@@ -15,6 +15,8 @@ const MenuList = styled(Container)`
 
 const MenuListItem = styled(Menu)`
   border: 1px solid ${colors.grey2};
+  background-color: ${colors.white};
+  margin: 1em 0;
 `;
 
 const NewMenuButton = styled(SecondaryLink)`
