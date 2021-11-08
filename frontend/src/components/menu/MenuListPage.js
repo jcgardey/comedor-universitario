@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import colors from '../../styles/colors';
 import { getAllMenus } from '../../services/menu';
 import { Container, SecondaryLink, Title } from '../Layout';
 import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
-import { MenuItem } from './MenuItem';
+import { Menu } from './Menu';
 
 const MenuList = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 2em;
+`;
+
+const MenuListItem = styled(Menu)`
+  border: 1px solid ${colors.grey2};
 `;
 
 const NewMenuButton = styled(SecondaryLink)`
@@ -34,7 +39,7 @@ const MenuListPage = () => {
         </NewMenuButton>
         <MenuList>
           {menus.map((menu, i) => (
-            <MenuItem key={i} menu={menu} />
+            <MenuListItem key={i} menu={menu} />
           ))}
         </MenuList>
       </Container>
