@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import colors from '../styles/colors';
+import { Link } from 'react-router-dom';
 
 export const Title = styled.h2`
   text-align: center;
@@ -48,6 +49,7 @@ export const Label = styled.label`
 
 export const FormField = styled.div`
   margin: 2em 0.5em;
+  position: relative;
 `;
 
 export const FormGroup = styled.div`
@@ -79,11 +81,6 @@ export const Row = styled.div`
   width: 100%;
   margin: 0.7em 0;
 `;
-export const Link = styled.a`
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 const buttonStyle = css`
   font-size: 16px;
@@ -111,7 +108,15 @@ export const PrimaryButton = styled(Button)`
 
 export const SecondaryButton = styled(Button)`
   background-color: ${colors.black};
-  color: ${colors.lightred};
+  color: ${colors.white2};
+`;
+
+export const SecondaryLink = styled(Link)`
+  ${buttonStyle};
+  background-color: ${colors.black};
+  color: ${colors.white2};
+  margin: 0.5em 0;
+  text-decoration: none;
 `;
 
 export const RadioItemLabel = styled.label`
