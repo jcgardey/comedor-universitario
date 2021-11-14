@@ -1,75 +1,77 @@
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import React, {useEffect, useState} from 'react';
-import { getMenusOnSaleForDate } from '../../services/menuOnSale';
+import React from 'react';
 import fonts from '../../styles/fonts';
-import { PrimaryIcon } from '../Layout';
+import { useSelector } from 'react-redux';
+import { dateToISOString } from '../../utils/common';
 
 const CalendarDayContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 3px 3px ${colors.lightred};
-    width: 100%;
-    height: 100%;
-    background-color: ${colors.white};
-    &:hover {
-        & ${AddIcon} {
-            display: '';
-        }
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px ${colors.lightgrey};
+  width: 100%;
+  height: 100%;
+  background-color: ${colors.white};
+  &:hover {
+    cursor: pointer;
+    background-color: ${colors.lightgrey};
+  }
 `;
 
 const DayOfWeek = styled.span`
-    font-size: 22px;
+  font-size: 1.4em;
 `;
 
 const Menu = styled.p`
-    font-family: ${fonts.secondary};
-    font-size: 14px;
-    font-weight: 600;
-    padding: .3em;
-    background-color: #9000a3;
-    color: white;
+  font-family: ${fonts.secondary};
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.3em;
+  background-color: #9000a3;
+  color: white;
 `;
 
 const DayNumber = styled.span`
-    font-weight: 900;
-    font-size: 24px;
+  font-weight: 900;
+  font-size: 2.2em;
+  color: ${colors.brown};
 `;
 
-const AddIcon = styled(PrimaryIcon)`
-    margin-bottom: .2em;
-    margin-top: auto;
-    &:hover {
-        color: ${colors.lightgrey};
-        cursor: pointer;
-    }
-`;
-
-
-const CalendarDay = ({day, month, year, onAddClick}) => {
-
-  const days = ['Domingo','Lunes', 'Martes', 'Miercoles', 'Jueves','Viernes', 'Sabado'];
+const CalendarDay = ({ day, month, year, onDaySelection }) => {
+  const days = [
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
+  ];
 
   const date = new Date(year, month, day);
 
-  const [menus, setMenus] = useState([]);
-    
-
-  useEffect(() => {
-    getMenusOnSaleForDate(date).then(response => {
-      setMenus(response.data);
-    });
-  } , []);
+  const menusOnSale = useSelector((state) =>
+    state.menusOnSale.filter(
+      (menuOnSale) => menuOnSale['sale_date'] === dateToISOString(date)
+    )
+  );
 
   return (
-    <CalendarDayContainer style={{ backgroundColor: date.getMonth() != month ? colors.lightgrey: ''}}>
+    <CalendarDayContainer
+      style={{
+        backgroundColor: date.getMonth() != month ? colors.grey : '',
+      }}
+      onClick={() => onDaySelection(date)}
+    >
       <DayOfWeek>{days[date.getDay()]}</DayOfWeek>
       <DayNumber>{date.getDate()}</DayNumber>
-      {menus.map(menuOnSale => (<Menu key={menuOnSale.id}>{menuOnSale.menu.name} ({menuOnSale.stock})</Menu>) )}
-      <AddIcon onClick={onAddClick} className={'fas fa-plus-circle fa-2x'}></AddIcon>
+      {menusOnSale.map((menuOnSale) => (
+        <Menu key={menuOnSale.id}>
+          {menuOnSale.menu.name} ({menuOnSale.stock})
+        </Menu>
+      ))}
     </CalendarDayContainer>
   );
 };
