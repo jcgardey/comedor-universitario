@@ -35,9 +35,11 @@ const CalendarPage = () => {
           year={new Date().getFullYear()}
           onDaySelection={showDayDetails}
         />
-        <Modal show={addMenu} handleClose={closeAddMenu} title={'Crear Venta'}>
-          <EditMenuOnSale onEdit={closeAddMenu} date={selectedDate} />
-        </Modal>
+        {addMenu && (
+          <Modal show={true} handleClose={closeAddMenu} title={'Crear Venta'}>
+            <EditMenuOnSale onEdit={closeAddMenu} selectedDate={selectedDate} />
+          </Modal>
+        )}
       </Container>
     </>
   );

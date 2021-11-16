@@ -8,9 +8,9 @@ import { createMenuOnSaleAction } from '../../actions/menusOnSale';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 import { FieldErrors, FormField, Label, TextInput, Select } from '../Form';
-import { dateToLocalString } from '../../utils/common';
+import { dateToLocalString, stringToDate } from '../../utils/common';
 
-export const EditMenuOnSale = ({ date, onEdit }) => {
+export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
   const [sites, setSites] = useState([]);
   const [showMenuOptions, setShowMenuOptions] = useState(false);
   const [menuName, setMenuName] = useState('');
@@ -21,7 +21,13 @@ export const EditMenuOnSale = ({ date, onEdit }) => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(createMenuOnSaleAction({ ...values, menu: values.menu.id, date }));
+    dispatch(
+      createMenuOnSaleAction({
+        ...values,
+        menu: values.menu.id,
+        date: stringToDate(values.date),
+      })
+    );
     onEdit();
   };
 
@@ -49,6 +55,7 @@ export const EditMenuOnSale = ({ date, onEdit }) => {
     {
       notNull: { message: 'Seleccione el menu a vender' },
     },
+    null,
     menuSelected
   );
   const siteField = register('site', 'text', {
@@ -60,7 +67,18 @@ export const EditMenuOnSale = ({ date, onEdit }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField>
           <Label>Fecha</Label>
-          <TextInput value={dateToLocalString(date)} />
+          <TextInput
+            {...register(
+              'date',
+              'text',
+              {
+                required: { message: 'Ingrese una fecha' },
+                date: true,
+              },
+              dateToLocalString(selectedDate)
+            )}
+          />
+          <FieldErrors errors={errors.date} />
         </FormField>
         <FormField>
           <Label>Men&uacute;</Label>
