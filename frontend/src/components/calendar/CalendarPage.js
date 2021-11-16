@@ -10,7 +10,7 @@ import { getAllMenusOnSaleAction } from '../../actions/menusOnSale';
 
 const CalendarPage = () => {
   const [addMenu, setAddMenu] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const closeAddMenu = () => setAddMenu(false);
 
@@ -36,7 +36,7 @@ const CalendarPage = () => {
           onDaySelection={showDayDetails}
         />
         <Modal show={addMenu} handleClose={closeAddMenu} title={'Crear Venta'}>
-          <EditMenuOnSale onSubmit={closeAddMenu} date={selectedDate} />
+          <EditMenuOnSale onEdit={closeAddMenu} date={selectedDate} />
         </Modal>
       </Container>
     </>

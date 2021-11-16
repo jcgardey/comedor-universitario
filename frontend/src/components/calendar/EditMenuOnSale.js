@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllSites } from '../../services/site';
 import { getMenusByName } from '../../services/menu';
-import { createMenuOnSale } from '../../services/menuOnSale';
 import {
   Container,
   FormField,
@@ -11,23 +10,26 @@ import {
   PrimaryButton,
 } from '../Layout';
 import { SelectableListOption, SelectableList } from '../utils/SelectableList';
-import { MenuItem } from '../menu/MenuItem';
-import styled from 'styled-components';
+import { Menu } from '../menu/Menu';
+import { createMenuOnSaleAction } from '../../actions/menusOnSale';
+import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
+import { FieldErrors } from '../Form';
+import { dateToLocalString } from '../../utils/common';
 
-export const EditMenuOnSale = ({ date, onSubmit }) => {
+export const EditMenuOnSale = ({ date, onEdit }) => {
   const [sites, setSites] = useState([]);
-  const [menu, setMenu] = useState(null);
+  const [showMenuOptions, setShowMenuOptions] = useState(false);
   const [menuName, setMenuName] = useState('');
   const [availableMenus, setAvailableMenus] = useState([]);
-  const [stock, setStock] = useState(0);
-  const [site, setSite] = useState(0);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createMenuOnSale({ ...menuOnSale, date }).then((response) => {
-      setMenus((previousState) => [...previousState, ...response.data]);
-    });
-    onSubmit();
+  const { register, handleSubmit, values, errors } = useForm();
+
+  const dispatch = useDispatch();
+
+  const onSubmit = () => {
+    dispatch(createMenuOnSaleAction({ ...values, menu: values.menu.id, date }));
+    onEdit();
   };
 
   useEffect(() => {
@@ -40,16 +42,33 @@ export const EditMenuOnSale = ({ date, onSubmit }) => {
     setMenuName(e.target.value);
     getMenusByName(e.target.value).then((response) => {
       setAvailableMenus(response.data);
+      setShowMenuOptions(response.data.length > 0);
     });
   };
 
-  const MenuInList = styled(MenuItem)`
-    height: 100px;
-  `;
+  const menuSelected = () => {
+    setShowMenuOptions(false);
+  };
+
+  const menuField = register(
+    'menu',
+    'object',
+    {
+      notNull: { message: 'Seleccione el menu a vender' },
+    },
+    menuSelected
+  );
+  const siteField = register('site', 'text', {
+    required: { message: 'Elija una sede' },
+  });
 
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormField>
+          <Label>Fecha</Label>
+          <TextInput value={dateToLocalString(date)} />
+        </FormField>
         <FormField>
           <Label>Men&uacute;</Label>
           <TextInput
@@ -58,40 +77,53 @@ export const EditMenuOnSale = ({ date, onSubmit }) => {
             value={menuName}
             name="menu"
           ></TextInput>
-          {availableMenus.length > 0 && (
+          {showMenuOptions && (
             <SelectableList>
               {availableMenus.map((menu) => (
-                <SelectableListOption key={menu.id}>
-                  <MenuInList menu={menu} />
+                <SelectableListOption
+                  key={menu.id}
+                  onClick={() => menuField.onChange(menu)}
+                >
+                  <Menu
+                    key={menu.id}
+                    menu={menu}
+                    showName={false}
+                    showActions={false}
+                  />
                 </SelectableListOption>
               ))}
             </SelectableList>
           )}
         </FormField>
-        <FormField style={{ height: '120px' }}>
-          {menu && <MenuInList menu={menu} />}
+        <FormField>
+          {values.menu && (
+            <Menu menu={values.menu} showName={false} showActions={false} />
+          )}
+          <FieldErrors errors={errors.menu} />
         </FormField>
         <FormField>
           <Label>Cantidad</Label>
           <TextInput
-            type="text"
-            onChange={(e) => setStock(e.target.value)}
-            value={stock}
-            name="stock"
+            {...register('stock', 'text', {
+              integer: {
+                message: 'La cantidad debe ser un numero mayor a 0',
+                min: 1,
+              },
+            })}
           ></TextInput>
+          <FieldErrors errors={errors.stock} />
         </FormField>
         <FormField>
           <Label>Sede</Label>
-          <Select name="site" onChange={(e) => setSite(e.target.value)}>
-            <option disabled selected value>
-              Seleccionar
-            </option>
+          <Select name={siteField.name} onChange={siteField.onChange}>
+            <option value="">Seleccionar Sede</option>
             {sites.map((site) => (
               <option key={site.id} value={site.id}>
                 {site.name}
               </option>
             ))}
           </Select>
+          <FieldErrors errors={errors.site} />
         </FormField>
         <FormField>
           <PrimaryButton type="submit">Crear Venta</PrimaryButton>
