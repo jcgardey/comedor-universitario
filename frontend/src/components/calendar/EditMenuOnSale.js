@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getAllSites } from '../../services/site';
 import { getMenusByName } from '../../services/menu';
-import {
-  Container,
-  FormField,
-  Label,
-  TextInput,
-  Select,
-  PrimaryButton,
-} from '../Layout';
+import { Container, PrimaryButton } from '../Layout';
 import { SelectableListOption, SelectableList } from '../utils/SelectableList';
 import { Menu } from '../menu/Menu';
 import { createMenuOnSaleAction } from '../../actions/menusOnSale';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
-import { FieldErrors } from '../Form';
+import { FieldErrors, FormField, Label, TextInput, Select } from '../Form';
 import { dateToLocalString } from '../../utils/common';
 
 export const EditMenuOnSale = ({ date, onEdit }) => {

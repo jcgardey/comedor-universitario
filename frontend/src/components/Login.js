@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavigationBarAnnonymousUser from './nav/NavigationBarAnnonymousUser';
-import {
-  Container,
-  FormField,
-  FormGroup,
-  Label,
-  TextInput,
-  Title,
-  PrimaryButton,
-  FieldError,
-} from './Layout';
+import { Container, Title, PrimaryButton } from './Layout';
+import { FieldError, FormField, FormGroup, Label, TextInput } from './Form';
 import { useHistory } from 'react-router';
 import { login } from '../actions/auth';
 

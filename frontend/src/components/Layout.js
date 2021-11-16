@@ -13,53 +13,6 @@ export const SectionTitle = styled.h3`
   font-weight: bold;
 `;
 
-const inputStyle = css`
-  border: 1px solid ${colors.lightgrey};
-  display: block;
-  height: 4em;
-  padding: 0.5em;
-  border-radius: 3px;
-  width: 100%;
-  color: ${colors.grey};
-  font-size: 16px;
-  box-sizing: border-box;
-`;
-
-export const TextInput = styled.input`
-  ${inputStyle}
-`;
-
-export const Select = styled.select`
-  ${inputStyle}
-`;
-
-export const FieldError = styled.span`
-  display: block;
-  color: red;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-export const Label = styled.label`
-  display: block;
-  font-weight: bold;
-  margin: 0.8em 0;
-  width: 100%;
-`;
-
-export const FormField = styled.div`
-  margin: 2em 0.5em;
-  position: relative;
-`;
-
-export const FormGroup = styled.div`
-  width: 50%;
-  padding: 1em;
-  background-color: ${colors.white};
-  border-radius: 8px;
-  margin: 1em auto;
-`;
-
 export const InlineFormGroup = styled.div`
   display: inline-block;
   margin: 0 1em;
@@ -117,10 +70,6 @@ export const SecondaryLink = styled(Link)`
   color: ${colors.white2};
   margin: 0.5em 0;
   text-decoration: none;
-`;
-
-export const RadioItemLabel = styled.label`
-  margin: 5px;
 `;
 
 export const RightAlignedLink = styled(Link)`

@@ -1,16 +1,14 @@
 import React from 'react';
 import { createMenu } from '../../services/menu';
+import { PrimaryButton, Container, Title } from '../Layout';
 import {
   FormField,
   TextInput,
   Label,
-  PrimaryButton,
-  Container,
-  Title,
-  RadioItemLabel,
   FieldError,
   FormGroup,
-} from '../Layout';
+  RadioItemLabel,
+} from '../Form';
 import MenuComponentsSelection from './MenuComponentsSelection';
 import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
 import { useForm } from '../../hooks/useForm';

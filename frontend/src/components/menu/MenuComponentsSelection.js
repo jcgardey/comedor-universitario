@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Row,
-  SectionTitle,
-  FlexContainer,
-  FormGroup,
-  FieldError,
-} from '../Layout';
+import { Row, SectionTitle, FlexContainer } from '../Layout';
+import { FieldError, FormGroup } from '../Form';
 import styled from 'styled-components';
 import EditMenuComponent from './EditMenuComponent';
 import Modal from '../Modal';

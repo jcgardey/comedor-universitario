@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { TextInput } from '../Layout';
+import { FormField, TextInput } from '../Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMenuComponentsByNameAction } from '../../actions/menu';
 import { MenuComponentInList } from './MenuComponentInList';
 import { MenuComponentName, MenuComponentNameHighlighted } from './Style';
 import { SelectableListOption, SelectableList } from '../utils/SelectableList';
-
-const MenuComponentList = styled(SelectableList)`
-  width: 40%;
-`;
 
 let SecondaryOption = ({ enteredText, onClick, className }) => (
   <SelectableListOption onClick={onClick} className={className}>
@@ -53,7 +49,7 @@ export const MenuComponentCombobox = ({ onSelect, secondaryAction }) => {
   };
 
   return (
-    <>
+    <FormField>
       <TextInput
         name="menu_component_name"
         value={menuComponentName}
@@ -61,7 +57,7 @@ export const MenuComponentCombobox = ({ onSelect, secondaryAction }) => {
         onChange={onTextChange}
       />
       {showOptionsList && (
-        <MenuComponentList>
+        <SelectableList>
           {menuComponents.length ? (
             menuComponents.map((component) => (
               <SelectableListOption
@@ -77,9 +73,9 @@ export const MenuComponentCombobox = ({ onSelect, secondaryAction }) => {
               onClick={handleSecondaryAction}
             />
           )}
-        </MenuComponentList>
+        </SelectableList>
       )}
-    </>
+    </FormField>
   );
 };
 
