@@ -25,8 +25,16 @@ export const useForm = () => {
     },
   };
 
-  const register = (name, type, fieldConstraints = {}, onChangeCallback) => {
-    const [value, setValue] = useState(fieldTypes[type].default);
+  const register = (
+    name,
+    type,
+    fieldConstraints = {},
+    defaultValue,
+    onChangeCallback
+  ) => {
+    const [value, setValue] = useState(
+      defaultValue ? defaultValue : fieldTypes[type].default
+    );
     const [fieldErrors, setFieldErrors] = useState([]);
     values[name] = value;
     errors[name] = fieldErrors;
