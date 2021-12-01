@@ -8,7 +8,10 @@ import { createMenuOnSaleAction } from '../../actions/menusOnSale';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 import { FieldErrors, FormField, Label, TextInput, Select } from '../Form';
-import { dateToLocalString, stringToDate } from '../../utils/common';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.min.css';
+import '../react-datepicker/react-datepicker-custom.css';
 
 export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
   const [sites, setSites] = useState([]);
@@ -25,7 +28,7 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
       createMenuOnSaleAction({
         ...values,
         menu: values.menu.id,
-        date: stringToDate(values.date),
+        date: values.date,
       })
     );
     onEdit();
@@ -62,21 +65,18 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
     required: { message: 'Elija una sede' },
   });
 
+  const dateField = register('date', 'object', {}, selectedDate);
+
   return (
     <Container>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField>
           <Label>Fecha</Label>
-          <TextInput
-            {...register(
-              'date',
-              'text',
-              {
-                required: { message: 'Ingrese una fecha' },
-                date: true,
-              },
-              dateToLocalString(selectedDate)
-            )}
+          <DatePicker
+            selected={dateField.value}
+            onChange={dateField.onChange}
+            dateFormat={'dd/MM/yyyy'}
+            customInput={<TextInput />}
           />
           <FieldErrors errors={errors.date} />
         </FormField>
@@ -105,13 +105,13 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
               ))}
             </SelectableList>
           )}
-        </FormField>
-        <FormField>
-          {values.menu && (
-            <Menu menu={values.menu} showName={false} showActions={false} />
-          )}
           <FieldErrors errors={errors.menu} />
         </FormField>
+        {values.menu && (
+          <FormField>
+            <Menu menu={values.menu} showName={false} showActions={false} />
+          </FormField>
+        )}
         <FormField>
           <Label>Cantidad</Label>
           <TextInput
