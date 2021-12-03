@@ -3,7 +3,7 @@ import colors from '../../styles/colors';
 import React from 'react';
 import fonts from '../../styles/fonts';
 import { useSelector } from 'react-redux';
-import { dateToISOString } from '../../utils/common';
+import { areSameDay, dateToISOString } from '../../utils/common';
 
 const CalendarDayContainer = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const Menu = styled.p`
   font-family: ${fonts.secondary};
   font-size: 14px;
   font-weight: 600;
-  padding: 0.3em;
+  padding: 0.2em;
   background-color: #9000a3;
   color: white;
 `;
@@ -36,7 +36,14 @@ const Menu = styled.p`
 const DayNumber = styled.span`
   font-weight: 900;
   font-size: 2.2em;
-  color: ${colors.brown};
+  color: ${colors.black};
+`;
+
+const CurrentDayNumber = styled(DayNumber)`
+  color: ${colors.white};
+  background-color: ${colors.red};
+  border-radius: 20px;
+  padding: 0 0.3em;
 `;
 
 const CalendarDay = ({ day, month, year, onDaySelection }) => {
@@ -66,7 +73,11 @@ const CalendarDay = ({ day, month, year, onDaySelection }) => {
       onClick={() => onDaySelection(date)}
     >
       <DayOfWeek>{days[date.getDay()]}</DayOfWeek>
-      <DayNumber>{date.getDate()}</DayNumber>
+      {areSameDay(date, new Date()) ? (
+        <CurrentDayNumber>{date.getDate()}</CurrentDayNumber>
+      ) : (
+        <DayNumber>{date.getDate()}</DayNumber>
+      )}
       {menusOnSale.map((menuOnSale) => (
         <Menu key={menuOnSale.id}>
           {menuOnSale.menu.name} ({menuOnSale.stock})
