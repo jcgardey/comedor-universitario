@@ -27,3 +27,8 @@ export const stringToDate = (aString) => {
     aString.slice(0, 2)
   );
 };
+
+export const areSameDay = (aDate, anotherDate) =>
+  aDate.getDate() === anotherDate.getDate() &&
+  aDate.getMonth() === anotherDate.getMonth() &&
+  aDate.getFullYear() === anotherDate.getFullYear();
