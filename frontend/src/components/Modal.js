@@ -1,20 +1,32 @@
 import styled from 'styled-components';
 import React from 'react';
-import {RightAlignedLink} from './Layout';
+import { Title } from './Layout';
+import { Link } from 'react-router-dom';
 
 const ModalMain = styled.div`
-    position:fixed;
-    background: white;
-    width: 70%;
-    height: auto;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    padding: 1em;
+  position: fixed;
+  background: white;
+  width: 70%;
+  max-height: 700px;
+  overflow-y: scroll;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1em;
 `;
 const ModalHeader = styled.div`
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+`;
+
+const CloseButton = styled(Link)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+`;
+
+const ModalTitle = styled(Title)`
+  margin: 0;
 `;
 
 const Modal = ({ handleClose, show, children, className, title }) => {
@@ -22,9 +34,11 @@ const Modal = ({ handleClose, show, children, className, title }) => {
   return (
     <div className={`${className} ${showHideClassName}`}>
       <ModalMain>
+        <CloseButton onClick={handleClose}>
+          <i className="fas fa-times fa-lg"></i>
+        </CloseButton>
         <ModalHeader>
-          <h3>{title}</h3>
-          <RightAlignedLink onClick={handleClose}><i className="fas fa-times"></i></RightAlignedLink>
+          <ModalTitle>{title}</ModalTitle>
         </ModalHeader>
         {children}
       </ModalMain>
@@ -33,12 +47,12 @@ const Modal = ({ handleClose, show, children, className, title }) => {
 };
 
 export default styled(Modal)`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width:100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: ${props => !props.show ? 'none' : 'block'};
-    z-index: 2;
-  `;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: ${(props) => (!props.show ? 'none' : 'block')};
+  z-index: 2;
+`;
