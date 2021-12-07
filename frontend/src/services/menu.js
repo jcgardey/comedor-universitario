@@ -1,11 +1,11 @@
 import axios from '../axios';
 
 export const getAllMenus = () => {
-  return axios.get('/api/menu');
+  return axios.get('/api/menus');
 };
 
 export const getMenusByName = (aName) => {
-  return axios.get(`/api/menu?name=${aName}`);
+  return axios.get(`/api/menus?name=${aName}`);
 };
 
 export const createMenuComponent = (component) => {
@@ -20,7 +20,7 @@ export const createMenuComponent = (component) => {
 
 export const createMenu = (menu) => {
   menu.components = menu.components.map((component) => component.id);
-  return axios.post('/api/menu', JSON.stringify(menu));
+  return axios.post('/api/menus/new', JSON.stringify(menu));
 };
 
 export const getMenuComponentsByName = (componentName) => {
