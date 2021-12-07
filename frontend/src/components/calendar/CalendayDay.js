@@ -4,6 +4,7 @@ import React from 'react';
 import fonts from '../../styles/fonts';
 import { useSelector } from 'react-redux';
 import { areSameDay, dateToISOString } from '../../utils/common';
+import { MenuOnSale } from './MenuOnSale';
 
 const CalendarDayContainer = styled.div`
   display: flex;
@@ -22,15 +23,6 @@ const CalendarDayContainer = styled.div`
 
 const DayOfWeek = styled.span`
   font-size: 1.4em;
-`;
-
-const Menu = styled.p`
-  font-family: ${fonts.secondary};
-  font-size: 14px;
-  font-weight: 600;
-  padding: 0.2em;
-  background-color: #9000a3;
-  color: white;
 `;
 
 const DayNumber = styled.span`
@@ -78,10 +70,8 @@ const CalendarDay = ({ day, month, year, onDaySelection }) => {
       ) : (
         <DayNumber>{date.getDate()}</DayNumber>
       )}
-      {menusOnSale.map((menuOnSale) => (
-        <Menu key={menuOnSale.id}>
-          {menuOnSale.menu.name} ({menuOnSale.stock})
-        </Menu>
+      {menusOnSale.map((menuOnSale, i) => (
+        <MenuOnSale key={i} menuOnSale={menuOnSale} />
       ))}
     </CalendarDayContainer>
   );

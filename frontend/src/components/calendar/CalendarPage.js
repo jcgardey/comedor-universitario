@@ -9,10 +9,10 @@ import { Month } from './Month';
 import { getAllMenusOnSaleAction } from '../../actions/menusOnSale';
 
 const CalendarPage = () => {
-  const [addMenu, setAddMenu] = useState(false);
+  const [daySelected, setDaySelected] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const closeAddMenu = () => setAddMenu(false);
+  const closeDayDetails = () => setDaySelected(false);
 
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const CalendarPage = () => {
   }, []);
 
   const showDayDetails = (date) => {
-    setAddMenu(true);
+    setDaySelected(true);
     setSelectedDate(date);
   };
 
@@ -35,10 +35,19 @@ const CalendarPage = () => {
           year={new Date().getFullYear()}
           onDaySelection={showDayDetails}
         />
-        {addMenu && (
-          <Modal show={true} handleClose={closeAddMenu} title={'Crear Venta'}>
-            <EditMenuOnSale onEdit={closeAddMenu} selectedDate={selectedDate} />
-          </Modal>
+        {daySelected && (
+          <>
+            <Modal
+              show={true}
+              handleClose={closeDayDetails}
+              title={'Crear Venta'}
+            >
+              <EditMenuOnSale
+                onEdit={closeDayDetails}
+                selectedDate={selectedDate}
+              />
+            </Modal>
+          </>
         )}
       </Container>
     </>
