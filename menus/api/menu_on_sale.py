@@ -15,7 +15,7 @@ class CreateMenuOnSaleAPI(APIView):
             menu_sales = self.create_sale(request.data, site)
         except MenuAlreadyOnSaleException:
             return Response({'message': 'menu already on sale on the date', 'error': 'menu-already-on-sale' }, status=status.HTTP_400_BAD_REQUEST)
-        return Response(MenuOnSaleSerializer(menu_sales, many=True).data)
+        return Response(MenuOnSaleSerializer(menu_sales).data)
     
     def create_sale(self, sale_data, site):
         menu = Menu.objects.get(pk=sale_data['menu'])
