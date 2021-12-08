@@ -7,11 +7,24 @@ import { Menu } from '../menu/Menu';
 import { createMenuOnSaleAction } from '../../actions/menusOnSale';
 import { useDispatch } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
-import { FieldErrors, FormField, Label, TextInput, Select } from '../Form';
+import {
+  FieldErrors,
+  FormField,
+  Label,
+  TextInput,
+  Select,
+  FieldError,
+} from '../Form';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.min.css';
 import '../react-datepicker/react-datepicker-custom.css';
+import { createMenuOnSale } from '../../services/menuOnSale';
+import styled from 'styled-components';
+
+const ErrorCentered = styled(FieldError)`
+  text-align: center;
+`;
 
 export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
   const [sites, setSites] = useState([]);
@@ -19,19 +32,23 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
   const [menuName, setMenuName] = useState('');
   const [availableMenus, setAvailableMenus] = useState([]);
 
+  const [invalidMenuOnSale, setInvalidMenuOnSale] = useState('');
+
   const { register, handleSubmit, values, errors } = useForm();
 
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(
-      createMenuOnSaleAction({
-        ...values,
-        menu: values.menu.id,
-        date: values.date,
+    createMenuOnSale({
+      ...values,
+      menu: values.menu.id,
+      date: values.date,
+    })
+      .then((response) => {
+        dispatch(createMenuOnSaleAction(response.data));
+        onEdit();
       })
-    );
-    onEdit();
+      .catch((error) => setInvalidMenuOnSale(error.response.data.error));
   };
 
   useEffect(() => {
@@ -69,6 +86,11 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
 
   return (
     <Container>
+      {invalidMenuOnSale === 'menu-already-on-sale' && (
+        <ErrorCentered>
+          El men&uacute; ya est&aacute; en venta en la fecha y sede elegida
+        </ErrorCentered>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField>
           <Label>Fecha</Label>

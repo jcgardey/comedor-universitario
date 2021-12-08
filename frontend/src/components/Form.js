@@ -45,7 +45,7 @@ export const FormGroup = styled.div`
 export const FieldError = styled.span`
   display: block;
   color: red;
-  font-size: 14px;
+  font-size: 1em;
   font-weight: bold;
 `;
 
