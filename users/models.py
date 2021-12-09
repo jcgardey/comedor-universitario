@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group 
 from .managers import UserManager
+from sites.models import Site
 
 # Create your models here.
 
@@ -10,7 +11,6 @@ class User(AbstractUser):
     name = models.CharField(max_length=256, default='User')
 
     groups = models.ManyToManyField(Group)
-
 
     USERNAME_FIELD = 'dni'
 
@@ -23,5 +23,9 @@ class User(AbstractUser):
     def is_in_group(self, group_name):
         return self.groups.filter(name=group_name).exists()
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
+class SiteAdminProfile(UserProfile):
+    site = models.ForeignKey(Site, null=True, on_delete=models.SET_NULL)
 

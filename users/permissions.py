@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from users.groups import CLIENT, SITE_ADMIN, SUPER_ADMIN
+
 
 
 class IsUserInGroups(permissions.IsAuthenticated):
@@ -12,14 +14,14 @@ class IsUserInGroups(permissions.IsAuthenticated):
 
 class IsSuperAdminUser(IsUserInGroups):
 
-    allowed_groups = ['super_admin']
+    allowed_groups = [SUPER_ADMIN]
 
 class IsSiteAdminUser(IsUserInGroups):
 
-    allowed_groups = ['site_admin', 'super_admin']
+    allowed_groups = [SITE_ADMIN, SUPER_ADMIN]
 
 class IsClientUser(IsUserInGroups):
 
-    allowed_groups = ['client']
+    allowed_groups = [CLIENT]
 
 
