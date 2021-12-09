@@ -22,14 +22,17 @@ export default (state = { loading: true }, action) => {
         loading: false,
         error: action.payload,
       };
-    case USER_LOADED:
+    case USER_LOADED: {
+      const { user, ...profile } = action.payload;
       return {
         token: localStorage.getItem('token'),
         refresh: localStorage.getItem('refresh'),
         isAuthenticated: true,
         loading: false,
-        ...action.payload,
+        ...user,
+        profile: profile,
       };
+    }
   }
   return state;
 };
