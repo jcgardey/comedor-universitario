@@ -16,21 +16,13 @@ const FlexStretchContainer = styled(FlexContainer)`
 `;
 
 const EditMenuComponent = ({ onEdit, className }) => {
-  const [componentName, setComponentName] = useState('');
-  const [componentType, setComponentType] = useState('');
-  const [componentImage, setComponentImage] = useState('');
+  const [image, setImage] = useState('');
 
   const { register, handleSubmit, values, errors } = useForm();
 
-  const menuComponent = {
-    name: values.name,
-    component_type: values['component_type'],
-    image: componentImage,
-  };
-
   const addComponent = () => {
-    createMenuComponent(menuComponent);
-    onEdit(menuComponent);
+    createMenuComponent({ ...values, image });
+    onEdit({ ...values, image });
   };
   return (
     <FlexStretchContainer>
@@ -56,7 +48,7 @@ const EditMenuComponent = ({ onEdit, className }) => {
             name="image"
             id="image"
             accept="image/png, image/jpeg"
-            onChange={(e) => setComponentImage(e.target.files[0])}
+            onChange={(e) => setImage(e.target.files[0])}
           />
         </FormField>
         <FormField>
@@ -66,7 +58,7 @@ const EditMenuComponent = ({ onEdit, className }) => {
         </FormField>
       </Container>
       <PreviewContainer>
-        <MenuComponentInList component={menuComponent} />
+        <MenuComponentInList component={{ ...values, image }} />
       </PreviewContainer>
     </FlexStretchContainer>
   );
