@@ -5,7 +5,7 @@ export default (state = [], action) => {
     case GET_MENUS_ON_SALE:
       return action.payload;
     case ADD_MENU_ON_SALE:
-      return [...state, ...action.payload];
+      return [...state, action.payload];
   }
   return state;
 };
