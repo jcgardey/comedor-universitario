@@ -5,12 +5,15 @@ from rest_framework import status
 from menus.models import Menu, MenuOnSale, Site, MenuAlreadyOnSaleException
 from django.utils.dateparse import parse_date
 from menus.serializers import MenuOnSaleSerializer
+from users.permissions import IsSiteAdminAssignedToSite, IsSiteAdminUser
 
 
 class CreateMenuOnSaleAPI(APIView):
+    permission_classes = [IsSiteAdminUser, IsSiteAdminAssignedToSite]
 
     def post(self, request):
         site = Site.objects.get(pk=request.data['site'])
+        self.check_object_permissions(request, site)
         try:
             menu_sales = self.create_sale(request.data, site)
         except MenuAlreadyOnSaleException:
@@ -24,10 +27,11 @@ class CreateMenuOnSaleAPI(APIView):
    
 
 class ListMenuOnSaleAPI(generics.ListAPIView):
+    permission_classes = [IsSiteAdminUser]
     serializer_class = MenuOnSaleSerializer
 
     def get_queryset(self):
         filterFields = {}
-        if self.request.query_params.get('sale_date', None) is not None:
-            filterFields['sale_date'] = parse_date(self.request.query_params.get('sale_date'))
+        if self.request.query_params.get('site', None) is not None:
+            filterFields['site'] = self.request.query_params.get('site')
         return MenuOnSale.objects.filter(**filterFields)

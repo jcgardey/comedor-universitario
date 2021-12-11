@@ -1,6 +1,7 @@
 from rest_framework import permissions
 
 from users.groups import CLIENT, SITE_ADMIN, SUPER_ADMIN
+from users.models import SiteAdminProfile
 
 
 
@@ -18,10 +19,17 @@ class IsSuperAdminUser(IsUserInGroups):
 
 class IsSiteAdminUser(IsUserInGroups):
 
-    allowed_groups = [SITE_ADMIN, SUPER_ADMIN]
+    allowed_groups = [SITE_ADMIN]
 
 class IsClientUser(IsUserInGroups):
 
     allowed_groups = [CLIENT]
+
+
+class IsSiteAdminAssignedToSite(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, site):
+        user_profile = SiteAdminProfile.objects.get(user=request.user)
+        return super().has_object_permission(request, view, site) and user_profile.site == site
 
 
