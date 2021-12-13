@@ -1,25 +1,13 @@
 from rest_framework import serializers
-from .models import Menu, MenuComponent, MenuOnSale
+from .models import Menu, MenuOnSale
 
-class MenuComponentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MenuComponent
-        fields = ('id','name', 'component_type', 'image')
-
-
-class MenuCreationSerializer(serializers.ModelSerializer):
+class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = '__all__'
-
-class MenuRetrievalSerializer(serializers.ModelSerializer):
-    components = MenuComponentSerializer(many=True)
-    class Meta:
-        model = Menu
-        fields = '__all__'
+        fields = fields = '__all__'
 
 class MenuOnSaleSerializer(serializers.ModelSerializer):
-    menu = MenuRetrievalSerializer()
+    menu = MenuSerializer()
     class Meta:
         model = MenuOnSale
         fields = '__all__'

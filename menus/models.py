@@ -12,16 +12,12 @@ class MenuAlreadyOnSaleException(Exception):
 
 
 # Create your models here.
-class MenuComponent(models.Model):
-    name = models.CharField(max_length=100)
-    component_type = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='menu_components', null=True)
-
 class Menu(models.Model):
     name = models.CharField(max_length=100)
     suitable_vegetarian = models.BooleanField(default=False)
     suitable_celiac = models.BooleanField(default=False)
-    components = models.ManyToManyField(MenuComponent)
+    menu_type = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='menus', null=True)
 
     def create_sale(self, date, stock, site):
         if (self.sales.filter(sale_date=date, menu = self, site = site)):

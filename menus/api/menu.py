@@ -1,13 +1,13 @@
 from rest_framework import generics
-from menus.serializers import MenuCreationSerializer, MenuRetrievalSerializer
+from menus.serializers import MenuSerializer
 from menus.models import Menu
 
-class CreateMenuAPI(generics.ListCreateAPIView):
-    serializer_class = MenuCreationSerializer
+class CreateMenuAPI(generics.CreateAPIView):
+    serializer_class = MenuSerializer
 
     
 class ListMenuAPI(generics.ListAPIView):
-    serializer_class = MenuRetrievalSerializer
+    serializer_class = MenuSerializer
 
     def get_queryset(self):
         name_param = self.request.query_params.get("name", None)
