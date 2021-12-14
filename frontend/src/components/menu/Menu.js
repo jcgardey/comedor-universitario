@@ -15,6 +15,7 @@ export const MenuName = styled.p`
   font-weight: bold;
   color: ${colors.red};
   text-align: center;
+  margin: 0.3em;
 `;
 
 const MenuContainer = styled.div`
@@ -34,13 +35,14 @@ const MenuContainer = styled.div`
 `;
 
 const MenuDescription = styled.div`
-  padding: 0.5em;
+  padding: 0.3em;
 `;
 
 const MenuType = styled.p`
   font-size: 1em;
   color: ${colors.grey};
   text-align: center;
+  margin: 0.2em;
 `;
 
 const ImageContainer = styled.div`

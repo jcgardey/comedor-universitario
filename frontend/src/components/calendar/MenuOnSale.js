@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import fonts from '../../styles/fonts';
 import colors from '../../styles/colors';
-import { MenuName } from '../menu/Menu';
+import { Menu } from '../menu/Menu';
+import { FlexContainer } from '../Layout';
 
 const MenuOnSaleName = styled.p`
   font-family: ${fonts.secondary};
@@ -21,20 +22,28 @@ const MenuOnSaleName = styled.p`
 const MenuOnSaleDetails = styled.div`
   position: absolute;
   z-index: 9999;
-  width: 20em;
   left: -4em;
   background-color: ${colors.white};
-  padding: 0%.5em;
-  border-radius: 5px;
+  padding: 0.5em;
+  border-radius: 10px;
   border: 1px solid ${colors.lightgrey};
+  text-align: center;
 `;
 
 const AmountName = styled.p`
   font-weight: bold;
+  margin: 0.1em;
 `;
 
 const Stock = styled.span`
   color: ${colors.red};
+`;
+
+const Price = styled.p`
+  font-size: 1.5em;
+  color: ${colors.darkCyan};
+  margin: 0.4em;
+  font-weight: bold;
 `;
 
 const MenuOnSaleContainer = styled.div`
@@ -54,13 +63,12 @@ export const MenuOnSale = ({ menuOnSale }) => {
       </MenuOnSaleName>
       {showDetails && (
         <MenuOnSaleDetails>
-          <MenuName>{menuOnSale.menu.name}</MenuName>
-          <AmountName>
-            Disponibles: <Stock>{menuOnSale.stock}</Stock>
-          </AmountName>
-          <AmountName>
-            Vendidos: <Stock>{menuOnSale.stock}</Stock>
-          </AmountName>
+          <Menu menu={menuOnSale.menu}>
+            <Price>&#36; {menuOnSale.price}</Price>
+            <AmountName>
+              Vendidos: <Stock>{menuOnSale.stock}</Stock>
+            </AmountName>
+          </Menu>
         </MenuOnSaleDetails>
       )}
     </MenuOnSaleContainer>
