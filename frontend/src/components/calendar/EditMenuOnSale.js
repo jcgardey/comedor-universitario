@@ -5,7 +5,7 @@ import { Container, PrimaryButton } from '../Layout';
 import { SelectableListOption, SelectableList } from '../utils/SelectableList';
 import { Menu } from '../menu/Menu';
 import { createMenuOnSaleAction } from '../../actions/menusOnSale';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 import {
   FieldErrors,
@@ -21,9 +21,28 @@ import 'react-datepicker/dist/react-datepicker.min.css';
 import '../react-datepicker/react-datepicker-custom.css';
 import { createMenuOnSale } from '../../services/menuOnSale';
 import styled from 'styled-components';
+import colors from '../../styles/colors';
 
 const ErrorCentered = styled(FieldError)`
   text-align: center;
+`;
+
+const SiteName = styled(Label)`
+  font-weight: 400;
+  color: ${colors.grey};
+  font-size: 1.2em;
+`;
+
+const MenuName = styled.p`
+  color: ${colors.grey};
+  padding: 0.3em;
+`;
+
+const PriceIcon = styled.span`
+  position: absolute;
+  font-size: 1.2em;
+  top: 2.8em;
+  left: 0.2em;
 `;
 
 export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
@@ -37,6 +56,8 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
   const { register, handleSubmit, values, errors } = useForm();
 
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth);
 
   const onSubmit = () => {
     createMenuOnSale({
@@ -78,9 +99,14 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
     null,
     menuSelected
   );
-  const siteField = register('site', 'text', {
-    required: { message: 'Elija una sede' },
-  });
+  const siteField = register(
+    'site',
+    'text',
+    {
+      required: { message: 'Elija una sede' },
+    },
+    user.profile.site ? user.profile.site.id : ''
+  );
 
   const dateField = register('date', 'object', {}, selectedDate);
 
@@ -117,12 +143,7 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
                   key={menu.id}
                   onClick={() => menuField.onChange(menu)}
                 >
-                  <Menu
-                    key={menu.id}
-                    menu={menu}
-                    showName={false}
-                    showActions={false}
-                  />
+                  <MenuName>{menu.name}</MenuName>
                 </SelectableListOption>
               ))}
             </SelectableList>
@@ -134,6 +155,15 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
             <Menu menu={values.menu} showName={false} showActions={false} />
           </FormField>
         )}
+        <FormField>
+          <Label>Precio</Label>
+          <PriceIcon>&#36;</PriceIcon>
+          <TextInput
+            {...register('price', 'text', { number: true })}
+            style={{ paddingLeft: '1.3em' }}
+          />
+          <FieldErrors errors={errors.price} />
+        </FormField>
         <FormField>
           <Label>Cantidad</Label>
           <TextInput
@@ -148,14 +178,17 @@ export const EditMenuOnSale = ({ selectedDate, onEdit }) => {
         </FormField>
         <FormField>
           <Label>Sede</Label>
-          <Select name={siteField.name} onChange={siteField.onChange}>
-            <option value="">Seleccionar Sede</option>
-            {sites.map((site) => (
-              <option key={site.id} value={site.id}>
-                {site.name}
-              </option>
-            ))}
-          </Select>
+          {user.profile.site && <SiteName>{user.profile.site.name}</SiteName>}
+          {!user.profile.site && (
+            <Select name={siteField.name} onChange={siteField.onChange}>
+              <option value="">Seleccionar Sede</option>
+              {sites.map((site) => (
+                <option key={site.id} value={site.id}>
+                  {site.name}
+                </option>
+              ))}
+            </Select>
+          )}
           <FieldErrors errors={errors.site} />
         </FormField>
         <FormField>
