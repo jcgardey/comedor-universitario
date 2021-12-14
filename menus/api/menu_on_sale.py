@@ -23,7 +23,7 @@ class CreateMenuOnSaleAPI(APIView):
     def create_sale(self, sale_data, site):
         menu = Menu.objects.get(pk=sale_data['menu'])
         sale_date = parse_date(sale_data['sale_date'])
-        return menu.create_sale(sale_date, sale_data['stock'] , site)
+        return menu.create_sale(sale_date, sale_data['stock'] , site, sale_data['price'])
    
 
 class ListMenuOnSaleAPI(generics.ListAPIView):

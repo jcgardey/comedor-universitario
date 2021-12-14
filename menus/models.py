@@ -19,15 +19,16 @@ class Menu(models.Model):
     menu_type = models.CharField(max_length=100)
     image = models.ImageField(upload_to='menus', null=True)
 
-    def create_sale(self, date, stock, site):
+    def create_sale(self, date, stock, site, price):
         if (self.sales.filter(sale_date=date, menu = self, site = site)):
             raise MenuAlreadyOnSaleException(self,site,date)
-        return self.sales.create(sale_date=date, stock=stock, site=site)
+        return self.sales.create(sale_date=date, stock=stock, site=site, price=price)
 
 class MenuOnSale(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='sales')
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     sale_date = models.DateField()
     stock = models.IntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
 
