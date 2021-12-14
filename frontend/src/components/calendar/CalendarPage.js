@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Title } from '../Layout';
-import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from '../Modal';
@@ -39,32 +38,29 @@ const CalendarPage = () => {
   };
 
   return (
-    <>
-      <NavigationBarSiteAdminUser />
-      <Container>
-        <Title>Calendario de Men&uacute;s</Title>
-        {user.profile.site && <Site>Sede {user.profile.site.name}</Site>}
-        <Month
-          month={new Date().getMonth()}
-          year={new Date().getFullYear()}
-          onDaySelection={showDayDetails}
-        />
-        {daySelected && (
-          <>
-            <Modal
-              show={true}
-              handleClose={closeDayDetails}
-              title={'Crear Venta'}
-            >
-              <EditMenuOnSale
-                onEdit={closeDayDetails}
-                selectedDate={selectedDate}
-              />
-            </Modal>
-          </>
-        )}
-      </Container>
-    </>
+    <Container>
+      <Title>Calendario de Men&uacute;s</Title>
+      {user.profile.site && <Site>Sede {user.profile.site.name}</Site>}
+      <Month
+        month={new Date().getMonth()}
+        year={new Date().getFullYear()}
+        onDaySelection={showDayDetails}
+      />
+      {daySelected && (
+        <>
+          <Modal
+            show={true}
+            handleClose={closeDayDetails}
+            title={'Crear Venta'}
+          >
+            <EditMenuOnSale
+              onEdit={closeDayDetails}
+              selectedDate={selectedDate}
+            />
+          </Modal>
+        </>
+      )}
+    </Container>
   );
 };
 

@@ -10,3 +10,5 @@ const isUserInGroup = (user, groupName) =>
 export const isUserSiteAdmin = (user) => isUserInGroup(user, SITE_ADMIN);
 
 export const isUserSuperAdmin = (user) => isUserInGroup(user, SUPER_ADMIN);
+
+export const isUserClient = (user) => isUserInGroup(user, CLIENT);

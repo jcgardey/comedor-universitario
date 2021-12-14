@@ -11,6 +11,7 @@ import PrivateSiteAdminRoute from './routes/PrivateSiteAdminRoute';
 import CalendarPage from './calendar/CalendarPage';
 import HomeRoute from './routes/HomeRoute';
 import MenuListPage from './menu/MenuListPage';
+import { Navigation } from './nav/Navigation';
 
 const App = () => {
   useEffect(() => {
@@ -24,6 +25,7 @@ const App = () => {
       <GlobalStyles />
       <Provider store={store}>
         <Router>
+          <Navigation />
           <Switch>
             <HomeRoute exact path="/" />
             <Route path="/login" component={Login} />
