@@ -1,29 +1,37 @@
 import React, { useState } from 'react';
 import { PrimaryButton, Container, FlexContainer } from '../Layout';
-import { FormField, FieldError, Label, TextInput, Select } from '../Form';
+import {
+  FormField,
+  FieldError,
+  Label,
+  TextInput,
+  Select,
+  RadioItemLabel,
+} from '../Form';
 import styled from 'styled-components';
-import { createMenuComponent } from '../../services/menu';
-import colors from '../../styles/colors';
-import { MenuComponentInList } from './MenuComponentInList';
+import { createMenu } from '../../services/menu';
 import { useForm } from '../../hooks/useForm';
+import { Menu } from './Menu';
 
 const PreviewContainer = styled(Container)`
   padding: 1em;
-  border-left: 2px solid ${colors.grey2};
 `;
 const FlexStretchContainer = styled(FlexContainer)`
   align-items: stretch;
 `;
 
-const EditMenuComponent = ({ onEdit, className }) => {
+const EditMenu = ({ onEdit, className }) => {
   const [image, setImage] = useState('');
 
   const { register, handleSubmit, values, errors } = useForm();
 
-  const addComponent = () => {
-    createMenuComponent({ ...values, image });
+  const submitMenu = () => {
+    createMenu({ ...values, image }).catch((error) =>
+      console.log(error.response)
+    );
     onEdit({ ...values, image });
   };
+
   return (
     <FlexStretchContainer>
       <Container className={className}>
@@ -34,12 +42,20 @@ const EditMenuComponent = ({ onEdit, className }) => {
         </FormField>
         <FormField>
           <Label>Tipo</Label>
-          <Select {...register('component_type', 'text', { required: true })}>
+          <Select {...register('menu_type', 'text', { required: true })}>
             <option>Entrada</option>
             <option>Plato Principal</option>
             <option>Postre</option>
             <option>Bebida</option>
           </Select>
+        </FormField>
+        <FormField>
+          <input {...register('suitable_vegetarian', 'checkbox')} />
+          <RadioItemLabel>Apto Vegetarinos</RadioItemLabel>
+        </FormField>
+        <FormField>
+          <input {...register('suitable_celiac', 'checkbox')} />
+          <RadioItemLabel>Apto Celiacos</RadioItemLabel>
         </FormField>
         <FormField>
           <Label>Imagen</Label>
@@ -52,16 +68,16 @@ const EditMenuComponent = ({ onEdit, className }) => {
           />
         </FormField>
         <FormField>
-          <PrimaryButton type="button" onClick={handleSubmit(addComponent)}>
+          <PrimaryButton type="button" onClick={handleSubmit(submitMenu)}>
             Crear
           </PrimaryButton>
         </FormField>
       </Container>
       <PreviewContainer>
-        <MenuComponentInList component={{ ...values, image }} />
+        <Menu menu={{ ...values, image }} />
       </PreviewContainer>
     </FlexStretchContainer>
   );
 };
 
-export default EditMenuComponent;
+export default EditMenu;

@@ -8,22 +8,14 @@ export const getMenusByName = (aName) => {
   return axios.get(`/api/menus?name=${aName}`);
 };
 
-export const createMenuComponent = (component) => {
-  let formData = new FormData();
-  formData.append('name', component.name);
-  formData.append('component_type', component.component_type);
-  if (component.image) {
-    formData.append('image', component.image, component.image.name);
-  }
-  return axios.post('/api/menu_component/', formData);
-};
-
 export const createMenu = (menu) => {
-  menu.components = menu.components.map((component) => component.id);
-  return axios.post('/api/menus/new', JSON.stringify(menu));
-};
-
-export const getMenuComponentsByName = (componentName) => {
-  const nameParam = new URLSearchParams({ name: componentName }).toString();
-  return axios.get(`/api/menu_component/?${nameParam}`);
+  let formData = new FormData();
+  formData.append('name', menu.name);
+  formData.append('menu_type', menu.menu_type);
+  formData.append('suitable_celiac', menu.suitable_celiac);
+  formData.append('suitable_vegetarian', menu.suitable_vegetarian);
+  if (menu.image) {
+    formData.append('image', menu.image, menu.image.name);
+  }
+  return axios.post('/api/menus/new', formData);
 };

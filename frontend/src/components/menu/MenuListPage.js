@@ -5,18 +5,13 @@ import { getAllMenus } from '../../services/menu';
 import { Container, SecondaryLink, Title } from '../Layout';
 import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
 import { Menu } from './Menu';
+import EditMenu from './EditMenu';
+import Modal from '../Modal';
 
 const MenuList = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   margin-top: 2em;
-`;
-
-const MenuListItem = styled(Menu)`
-  border: 1px solid ${colors.grey2};
-  background-color: ${colors.white};
-  margin: 1em 0;
 `;
 
 const NewMenuButton = styled(SecondaryLink)`
@@ -25,6 +20,18 @@ const NewMenuButton = styled(SecondaryLink)`
 `;
 
 const MenuListPage = () => {
+  const [addMenu, setAddMenu] = useState(false);
+
+  const hideModal = () => {
+    setAddMenu(false);
+  };
+
+  const createMenu = (menu) => {
+    setMenus([...menus, menu]);
+  };
+
+  const showMenuModal = () => setAddMenu(true);
+
   useEffect(() => {
     getAllMenus().then((response) => setMenus(response.data));
   }, []);
@@ -36,14 +43,17 @@ const MenuListPage = () => {
       <NavigationBarSiteAdminUser />
       <Container>
         <Title>Men&uacute;s Disponibles</Title>
-        <NewMenuButton to="/menus/new">
-          Nuevo Men&uacute; <i className="fas fa-plus-circle fa-sm"></i>
+        <NewMenuButton onClick={showMenuModal}>
+          Nuevo <i className="fas fa-plus-circle fa-sm"></i>
         </NewMenuButton>
         <MenuList>
           {menus.map((menu, i) => (
-            <MenuListItem key={i} menu={menu} />
+            <Menu key={i} menu={menu} />
           ))}
         </MenuList>
+        <Modal show={addMenu} handleClose={hideModal} title={'Crear Menu'}>
+          <EditMenu onEdit={createMenu} />
+        </Modal>
       </Container>
     </>
   );

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import LandingPage from '../LandingPage';
-import EditMenuPage from '../menu/EditMenuPage';
 import { useSelector } from 'react-redux';
 import { isUserSiteAdmin } from '../../utils/auth';
+import CalendarPage from '../calendar/CalendarPage';
 
 const HomeRoute = ({ ...rest }) => {
   const user = useSelector((state) => state.auth);
@@ -15,7 +15,7 @@ const HomeRoute = ({ ...rest }) => {
           return <LandingPage {...props} />;
         }
         if (isUserSiteAdmin(user)) {
-          return <EditMenuPage {...props} />;
+          return <CalendarPage {...props} />;
         }
       }}
     />

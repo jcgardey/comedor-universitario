@@ -1,68 +1,80 @@
-import React from 'react';
+import { FlexContainer, RightAlignedLink, PrimaryIcon } from '../Layout';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import { PrimaryIcon } from '../Layout';
-import { MenuComponentInList } from './MenuComponentInList';
+import React from 'react';
+
+export const MenuImage = styled.img`
+  border-radius: 1.8rem;
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+`;
+
+export const MenuName = styled.p`
+  font-size: 1.2em;
+  font-weight: bold;
+  color: ${colors.red};
+  text-align: center;
+`;
 
 const MenuContainer = styled.div`
-  width: 100%;
-  border-radius: 5px;
-  position: relative;
+  height: 22em;
+  width: 15em;
+  padding: 1.2em;
+  background-color: ${colors.white};
+  border-radius: 10px;
+  & ${RightAlignedLink} {
+    display: none;
+  }
+  &:hover {
+    & ${RightAlignedLink} {
+      display: block;
+    }
+  }
 `;
 
-const MenuComponents = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  margin: 0.5em 1em;
-  font-size: 0.75em;
+const MenuDescription = styled.div`
+  padding: 0.5em;
 `;
 
-const MenuName = styled.p`
-  font-size: 1.2em;
-  text-align: center;
+const MenuType = styled.p`
+  font-size: 1em;
   color: ${colors.grey};
-  font-style: italic;
+  text-align: center;
 `;
 
-const MenuComponent = styled(MenuComponentInList)`
-  margin: 1em;
+const ImageContainer = styled.div`
+  height: 60%;
+  width: 100%;
 `;
 
-const MenuActions = styled.div`
-  position: absolute;
-  top: 1em;
-  right: 1em;
-`;
-
-const TrashIcon = styled(PrimaryIcon)`
-  margin: 0.4em;
-`;
-
-const EditIcon = styled.i`
-  margin: 0.4em;
-`;
+const SaleInfo = styled.div``;
 
 export const Menu = ({
-  className,
   menu,
-  showName = true,
-  showActions = true,
-}) => (
-  <MenuContainer className={className}>
-    {showName && <MenuName>{menu.name}</MenuName>}
-    {showActions && (
-      <MenuActions>
-        <EditIcon className="fas fa-edit fa-lg"></EditIcon>
-        <TrashIcon className="far fa-trash-alt fa-lg"></TrashIcon>
-      </MenuActions>
-    )}
-    <MenuComponents>
-      {menu.components.map((component, i) => (
-        <>
-          <MenuComponent key={i} component={component} />
-        </>
-      ))}
-    </MenuComponents>
-  </MenuContainer>
-);
+  className,
+  onClick,
+  onDelete = false,
+  children,
+}) => {
+  const image = menu.image ? menu.image : '/media/placeholder.jpg';
+  const imageSrc =
+    typeof image === 'object' ? URL.createObjectURL(image) : image;
+  return (
+    <MenuContainer className={className} onClick={onClick}>
+      <ImageContainer>
+        <MenuImage src={imageSrc} />
+      </ImageContainer>
+      <MenuDescription>
+        <MenuName>{menu.name}</MenuName>
+        <MenuType>{menu.menu_type}</MenuType>
+      </MenuDescription>
+      <SaleInfo>{children}</SaleInfo>
+      {onDelete && (
+        <RightAlignedLink onClick={onDelete}>
+          <PrimaryIcon className="far fa-trash-alt fa-lg"></PrimaryIcon>
+        </RightAlignedLink>
+      )}
+    </MenuContainer>
+  );
+};

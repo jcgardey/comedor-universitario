@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 
 import store from '../store';
 import { Provider } from 'react-redux';
-import EditMenuPage from './menu/EditMenuPage';
 import Login from './Login';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
@@ -28,9 +27,8 @@ const App = () => {
           <Switch>
             <HomeRoute exact path="/" />
             <Route path="/login" component={Login} />
-            <PrivateSiteAdminRoute path="/menus/new" component={EditMenuPage} />
             <PrivateSiteAdminRoute path="/menus" component={MenuListPage} />
-            <Route path="/calendar" component={CalendarPage} />
+            <PrivateSiteAdminRoute path="/calendar" component={CalendarPage} />
           </Switch>
         </Router>
       </Provider>
