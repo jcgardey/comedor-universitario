@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Title } from '../Layout';
 import NavigationBarSiteAdminUser from '../nav/NavigationBarSiteAdminUser';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from '../Modal';
 import { EditMenuOnSale } from './EditMenuOnSale';
 import { Month } from './Month';
 import { getAllMenusOnSaleAction } from '../../actions/menusOnSale';
+import styled from 'styled-components';
+import colors from '../../styles/colors';
+
+const Site = styled.h4`
+  text-align: center;
+  font-size: 1.4em;
+  color: ${colors.grey};
+  margin-bottom: 0.8em;
+`;
 
 const CalendarPage = () => {
   const [daySelected, setDaySelected] = useState(false);
@@ -16,8 +25,12 @@ const CalendarPage = () => {
 
   const dispatch = useDispatch();
 
+  const user = useSelector((state) => state.auth);
+
   useEffect(() => {
-    dispatch(getAllMenusOnSaleAction());
+    dispatch(
+      getAllMenusOnSaleAction(user.profile.site ? user.profile.site.id : null)
+    );
   }, []);
 
   const showDayDetails = (date) => {
@@ -30,6 +43,7 @@ const CalendarPage = () => {
       <NavigationBarSiteAdminUser />
       <Container>
         <Title>Calendario de Men&uacute;s</Title>
+        {user.profile.site && <Site>Sede {user.profile.site.name}</Site>}
         <Month
           month={new Date().getMonth()}
           year={new Date().getFullYear()}

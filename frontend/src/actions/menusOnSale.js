@@ -1,8 +1,8 @@
 import { getAllMenusOnSale } from '../services/menuOnSale';
 import { ADD_MENU_ON_SALE, GET_MENUS_ON_SALE } from './types';
 
-export const getAllMenusOnSaleAction = () => (dispatch) => {
-  getAllMenusOnSale().then((res) =>
+export const getAllMenusOnSaleAction = (site) => (dispatch) => {
+  getAllMenusOnSale(site).then((res) =>
     dispatch({ type: GET_MENUS_ON_SALE, payload: res.data })
   );
 };

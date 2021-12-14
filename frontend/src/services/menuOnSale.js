@@ -5,8 +5,9 @@ export const getMenusOnSaleForDate = (date) => {
   return axios.get(`/api/menus_on_sale?sale_date=${dateToISOString(date)}`);
 };
 
-export const getAllMenusOnSale = () => {
-  return axios.get('/api/menus_on_sale');
+export const getAllMenusOnSale = (site) => {
+  const siteQuery = site !== null ? `site=${site}` : '';
+  return axios.get(`/api/menus_on_sale?${siteQuery}`);
 };
 
 export const createMenuOnSale = (menuOnSale) => {
