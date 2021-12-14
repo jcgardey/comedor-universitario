@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import fonts from '../../styles/fonts';
 import colors from '../../styles/colors';
 import { Menu } from '../menu/Menu';
-import { FlexContainer } from '../Layout';
 
 const MenuOnSaleName = styled.p`
   font-family: ${fonts.secondary};
@@ -11,7 +10,7 @@ const MenuOnSaleName = styled.p`
   font-weight: 600;
   padding: 0.3em;
   margin: 0.2em 0;
-  background-color: #9000a3;
+  background-color: ${colors.limerick};
   color: white;
   text-overflow: ellipsis;
   white-space: nowrap;

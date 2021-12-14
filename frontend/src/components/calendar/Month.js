@@ -17,11 +17,11 @@ const MonthName = styled.p`
   text-align: center;
   font-size: 1.4em;
   font-weight: 600;
-  color: ${colors.lightred};
+  color: ${colors.red};
 `;
 
 const ControlButton = styled(Button)`
-  color: ${colors.lightred};
+  color: ${colors.red};
   background-color: transparent;
   margin: 0 0.5em;
 `;
