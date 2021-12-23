@@ -1,13 +1,14 @@
 import axios from '../axios';
 import { dateToISOString } from '../utils/common';
 
-export const getMenusOnSaleForDate = (date) => {
-  return axios.get(`/api/menus_on_sale?sale_date=${dateToISOString(date)}`);
+export const getMenusOnSaleForSiteAndDate = (site, date) => {
+  return axios.get(
+    `/api/menus_on_sale?site=${site}&sale_date=${dateToISOString(date)}`
+  );
 };
 
 export const getAllMenusOnSale = (site) => {
-  const siteQuery = site !== null ? `site=${site}` : '';
-  return axios.get(`/api/menus_on_sale?${siteQuery}`);
+  return axios.get(`/api/menus_on_sale?site=${site}`);
 };
 
 export const createMenuOnSale = (menuOnSale) => {

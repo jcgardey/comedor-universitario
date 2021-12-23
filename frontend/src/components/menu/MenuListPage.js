@@ -6,7 +6,7 @@ import { Menu } from './Menu';
 import EditMenu from './EditMenu';
 import Modal from '../Modal';
 
-const MenuList = styled(Container)`
+export const MenuGrid = styled(Container)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin-top: 2em;
@@ -42,11 +42,11 @@ const MenuListPage = () => {
       <NewMenuButton onClick={showMenuModal}>
         Nuevo <i className="fas fa-plus-circle fa-sm"></i>
       </NewMenuButton>
-      <MenuList>
+      <MenuGrid>
         {menus.map((menu, i) => (
           <Menu key={i} menu={menu} />
         ))}
-      </MenuList>
+      </MenuGrid>
       <Modal show={addMenu} handleClose={hideModal} title={'Crear Menu'}>
         <EditMenu onEdit={createMenu} />
       </Modal>
