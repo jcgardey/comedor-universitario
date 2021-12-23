@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
@@ -27,11 +28,13 @@ class CreateMenuOnSaleAPI(APIView):
    
 
 class ListMenuOnSaleAPI(generics.ListAPIView):
-    permission_classes = [IsSiteAdminUser]
+    permission_classes = [IsAuthenticated]
     serializer_class = MenuOnSaleSerializer
 
     def get_queryset(self):
         filterFields = {}
         if self.request.query_params.get('site', None) is not None:
             filterFields['site'] = self.request.query_params.get('site')
+        if self.request.query_params.get('sale_date', None) is not None:
+            filterFields['sale_date'] = parse_date(self.request.query_params.get('sale_date'))
         return MenuOnSale.objects.filter(**filterFields)
