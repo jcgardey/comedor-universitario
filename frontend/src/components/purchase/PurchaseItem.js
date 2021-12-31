@@ -53,18 +53,18 @@ export const PurchaseItem = ({ menuOnSale }) => {
   const dispatch = useDispatch();
 
   const addItemToCart = () => {
-    dispatch(addItemToCartAction({ takeAway, menu: menuOnSale.id }));
+    dispatch(addItemToCartAction({ takeAway, ...menuOnSale }));
     setItemInCart(true);
   };
 
   const removeItemFromCart = () => {
-    dispatch(removeItemFromCartAction({ takeAway, menu: menuOnSale.id }));
+    dispatch(removeItemFromCartAction({ takeAway, ...menuOnSale }));
     setItemInCart(false);
   };
 
   const updateCartItem = (takeAway) => {
     setTakeAway(takeAway);
-    dispatch(updateCartItemAction({ takeAway, menu: menuOnSale.id }));
+    dispatch(updateCartItemAction({ takeAway, ...menuOnSale }));
   };
 
   return (

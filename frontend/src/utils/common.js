@@ -32,3 +32,6 @@ export const areSameDay = (aDate, anotherDate) =>
   aDate.getDate() === anotherDate.getDate() &&
   aDate.getMonth() === anotherDate.getMonth() &&
   aDate.getFullYear() === anotherDate.getFullYear();
+
+export const ISOtoLocalDate = (aString) =>
+  `${aString.slice(8, 10)}/${aString.slice(5, 7)}/${aString.slice(0, 4)}`;

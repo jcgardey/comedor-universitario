@@ -43,7 +43,7 @@ const Username = styled.span`
   font-weight: bold;
 `;
 
-const LoggedUser = ({ user, logout }) => {
+export const LoggedUser = ({ user, logout }) => {
   const [showOptions, setShowOptions] = useState(false);
 
   return (

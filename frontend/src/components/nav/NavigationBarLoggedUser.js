@@ -3,21 +3,19 @@ import LoggedUser from './LoggedUser';
 import NavigationBar from './NavigationBar';
 import styled from 'styled-components';
 
-const UserSection = styled.div`
-    margin-right: 1em;
+export const UserSection = styled.div`
+  margin-right: 1em;
+  display: flex;
+  align-items: center;
 `;
 
-const NavigationBarLoggedUser = ({ user, children }) => (
+const NavigationBarLoggedUser = ({ children }) => (
   <NavigationBar>
-    <div>
-      {children}
-    </div>
+    <div>{children}</div>
     <UserSection>
-      <LoggedUser/>
+      <LoggedUser />
     </UserSection>
   </NavigationBar>
 );
 
 export default NavigationBarLoggedUser;
-
-

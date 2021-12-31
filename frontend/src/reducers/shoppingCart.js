@@ -10,10 +10,10 @@ export default (state = [], action) => {
       return [...state, action.payload];
     case UPDATE_CART_ITEM:
       return state.map((item) =>
-        item.menu === action.payload.menu ? action.payload : item
+        item.id === action.payload.id ? action.payload : item
       );
     case REMOVE_CART_ITEM:
-      return state.filter((item) => item.menu !== action.payload);
+      return state.filter((item) => item.id !== action.payload.id);
   }
   return state;
 };
