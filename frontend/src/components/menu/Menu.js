@@ -19,6 +19,7 @@ export const MenuName = styled.p`
 `;
 
 const MenuContainer = styled.div`
+  margin: 0.3em;
   height: 22em;
   width: 15em;
   padding: 1.2em;

@@ -26,6 +26,7 @@ const MenuListPage = () => {
 
   const createMenu = (menu) => {
     setMenus([...menus, menu]);
+    hideModal();
   };
 
   const showMenuModal = () => setAddMenu(true);
