@@ -24,13 +24,15 @@ export const ShoppingCart = () => {
   const shoppingCart = useSelector((state) => state.shoppingCart);
   const [details, setDetails] = useState(false);
 
+  const closeDetails = () => setDetails(false);
+
   return (
     <Container>
       <a onClick={() => setDetails(!details)}>
         <i className="fas fa-shopping-cart fa-2x"></i>
       </a>
       <Badge>{shoppingCart.length}</Badge>
-      {details && <ShoppingCartDetails />}
+      {details && <ShoppingCartDetails close={closeDetails} />}
     </Container>
   );
 };

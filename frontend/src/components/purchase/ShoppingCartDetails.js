@@ -19,6 +19,7 @@ const ShoppingCartContainer = styled.div`
 const Header = styled.div`
   padding: 0.3em;
   border-bottom: 1px solid ${colors.lightgrey};
+  position: relative;
 `;
 
 const ShoppinCartItems = styled.div`
@@ -38,6 +39,7 @@ const Price = styled.span`
   font-size: 1.1em;
   color: ${colors.darkCyan};
   font-weight: bold;
+  margin-left: 0.3em;
 `;
 
 const ShoppingCartSummary = styled.div`
@@ -49,12 +51,21 @@ const PurchaseButton = styled(PrimaryButton)`
   font-weight: bold;
 `;
 
-export const ShoppingCartDetails = () => {
+const CloseButton = styled.a`
+  position: absolute;
+  top: 1.6em;
+  right: 1em;
+`;
+
+export const ShoppingCartDetails = ({ close }) => {
   const shoppingCart = useSelector((state) => state.shoppingCart);
   return (
     <ShoppingCartContainer>
       <Header>
-        <h4>Mi Carrito</h4>
+        <h3>Mi Carrito</h3>
+        <CloseButton onClick={close}>
+          <i className="fas fa-times fa-lg"></i>
+        </CloseButton>
       </Header>
       {shoppingCart.length === 0 && <p>El carrito est&aacute; vac&iacute;o</p>}
       {shoppingCart.length > 0 && (
@@ -66,8 +77,9 @@ export const ShoppingCartDetails = () => {
           </ShoppinCartItems>
           <ShoppingCartSummary>
             <TotalAmount>
-              Total &#36;
+              Total:
               <Price>
+                &#36;
                 {shoppingCart
                   .map((item) => parseFloat(item.price))
                   .reduce(
