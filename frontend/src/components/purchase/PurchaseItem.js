@@ -8,7 +8,7 @@ import {
   removeItemFromCartAction,
   updateCartItemAction,
 } from '../../actions/shoppingCart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToggleSwitch } from '../common/ToggleSwitch';
 
 const PurchaseInfo = styled.div`
@@ -47,25 +47,27 @@ const Price = styled.p`
 `;
 
 export const PurchaseItem = ({ menuOnSale }) => {
-  const [itemInCart, setItemInCart] = useState(false);
   const [takeAway, setTakeAway] = useState(false);
 
   const dispatch = useDispatch();
+  const shoppingCart = useSelector((state) => state.shoppingCart);
 
   const addItemToCart = () => {
     dispatch(addItemToCartAction({ takeAway, ...menuOnSale }));
-    setItemInCart(true);
   };
 
   const removeItemFromCart = () => {
     dispatch(removeItemFromCartAction({ takeAway, ...menuOnSale }));
-    setItemInCart(false);
   };
 
   const updateCartItem = (takeAway) => {
     setTakeAway(takeAway);
     dispatch(updateCartItemAction({ takeAway, ...menuOnSale }));
   };
+
+  const itemInCart = shoppingCart.filter(
+    (item) => item.id === menuOnSale.id
+  )[0];
 
   return (
     <Menu menu={menuOnSale.menu}>
@@ -74,7 +76,10 @@ export const PurchaseItem = ({ menuOnSale }) => {
         {itemInCart && (
           <>
             <label>Vianda</label>
-            <ToggleSwitch onSwitch={updateCartItem} />
+            <ToggleSwitch
+              onSwitch={updateCartItem}
+              enabled={itemInCart.takeAway}
+            />
             <RemoveFromCart onClick={removeItemFromCart}>
               <i className="fas fa-trash-alt fa-lg"></i>
             </RemoveFromCart>

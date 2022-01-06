@@ -50,12 +50,12 @@ const Input = styled.input`
   }
 `;
 
-export const ToggleSwitch = ({ onSwitch }) => {
+export const ToggleSwitch = ({ onSwitch, enabled = false }) => {
   const onChange = (e) => onSwitch(e.target.checked);
 
   return (
     <Switch>
-      <Input type="checkbox" onChange={onChange} />
+      <Input type="checkbox" onChange={onChange} checked={enabled} />
       <Slider></Slider>
     </Switch>
   );

@@ -4,16 +4,25 @@ import {
   UPDATE_CART_ITEM,
 } from '../actions/types';
 
-export default (state = [], action) => {
+export default (
+  state = localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart'))
+    : [],
+  action
+) => {
+  let newState = state;
   switch (action.type) {
     case ADD_ITEM_TO_CART:
-      return [...state, action.payload];
+      newState = [...state, action.payload];
+      break;
     case UPDATE_CART_ITEM:
-      return state.map((item) =>
+      newState = state.map((item) =>
         item.id === action.payload.id ? action.payload : item
       );
+      break;
     case REMOVE_CART_ITEM:
-      return state.filter((item) => item.id !== action.payload.id);
+      newState = state.filter((item) => item.id !== action.payload.id);
   }
-  return state;
+  localStorage.setItem('cart', JSON.stringify(newState));
+  return newState;
 };
