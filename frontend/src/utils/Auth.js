@@ -2,7 +2,7 @@ export const SITE_ADMIN = 'site_admin';
 export const SUPER_ADMIN = 'super_admin';
 export const CLIENT = 'client';
 
-const isUserInGroup = (user, groupName) =>
+export const isUserInGroup = (user, groupName) =>
   user.groups
     ? user.groups.filter((group) => group.name === groupName).length > 0
     : false;

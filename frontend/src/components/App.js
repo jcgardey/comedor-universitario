@@ -7,11 +7,12 @@ import Login from './Login';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { getLoggedUser } from '../actions/auth';
-import PrivateSiteAdminRoute from './routes/PrivateSiteAdminRoute';
+import { PrivateRoute } from './routes/PrivateRoute';
 import CalendarPage from './calendar/CalendarPage';
 import HomeRoute from './routes/HomeRoute';
 import MenuListPage from './menu/MenuListPage';
 import { Navigation } from './nav/Navigation';
+import { SITE_ADMIN } from '../utils/auth';
 
 const App = () => {
   useEffect(() => {
@@ -29,8 +30,16 @@ const App = () => {
           <Switch>
             <HomeRoute exact path="/" />
             <Route path="/login" component={Login} />
-            <PrivateSiteAdminRoute path="/menus" component={MenuListPage} />
-            <PrivateSiteAdminRoute path="/calendar" component={CalendarPage} />
+            <PrivateRoute
+              path="/menus"
+              component={MenuListPage}
+              userGroup={SITE_ADMIN}
+            />
+            <PrivateRoute
+              path="/calendar"
+              component={CalendarPage}
+              userGroup={SITE_ADMIN}
+            />
           </Switch>
         </Router>
       </Provider>
