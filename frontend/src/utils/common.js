@@ -8,6 +8,13 @@ export const range = (start, end) => {
 
 export const dateToISOString = (date) => date.toISOString().slice(0, 10);
 
+export const ISOStringToDate = (aString) =>
+  new Date(
+    aString.slice(0, 4),
+    parseInt(aString.slice(5, 7)) - 1,
+    aString.slice(8, 10)
+  );
+
 // returns a string with a dd/mm/yyyy pattern
 export const dateToLocalString = (date) =>
   `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;

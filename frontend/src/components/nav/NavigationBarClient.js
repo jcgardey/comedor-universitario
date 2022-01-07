@@ -2,7 +2,7 @@ import React from 'react';
 import { UserSection } from './NavigationBarLoggedUser';
 import NavigationBar, { NavLink } from './NavigationBar';
 import LoggedUser from './LoggedUser';
-import { ShoppingCart } from '../purchase/ShoppingCart';
+import { ShoppingCart } from '../cart/ShoppingCart';
 
 const NavigationBarClient = () => (
   <NavigationBar>

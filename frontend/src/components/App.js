@@ -12,7 +12,8 @@ import CalendarPage from './calendar/CalendarPage';
 import HomeRoute from './routes/HomeRoute';
 import MenuListPage from './menu/MenuListPage';
 import { Navigation } from './nav/Navigation';
-import { SITE_ADMIN } from '../utils/auth';
+import { CLIENT, SITE_ADMIN } from '../utils/auth';
+import { CheckoutPage } from './checkout/CheckoutPage';
 
 const App = () => {
   useEffect(() => {
@@ -39,6 +40,11 @@ const App = () => {
               path="/calendar"
               component={CalendarPage}
               userGroup={SITE_ADMIN}
+            />
+            <PrivateRoute
+              path="/checkout"
+              component={CheckoutPage}
+              userGroup={CLIENT}
             />
           </Switch>
         </Router>

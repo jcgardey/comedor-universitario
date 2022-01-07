@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import { PrimaryButton } from '../Layout';
+import { PrimaryLink } from '../Layout';
 import { ShoppingCartItem } from './ShoppingCartItem';
 
 const ShoppingCartContainer = styled.div`
@@ -42,13 +42,27 @@ const Price = styled.span`
   margin-left: 0.3em;
 `;
 
+export const ShoppingCartTotal = ({ shoppingCart, className }) => (
+  <TotalAmount className={className}>
+    Total:
+    <Price>
+      &#36;
+      {shoppingCart
+        .map((item) => parseFloat(item.price))
+        .reduce((previousItem, currentItem) => previousItem + currentItem, 0)
+        .toFixed(2)}
+    </Price>
+  </TotalAmount>
+);
+
 const ShoppingCartSummary = styled.div`
   padding: 0.4em;
 `;
 
-const PurchaseButton = styled(PrimaryButton)`
+const PurchaseButton = styled(PrimaryLink)`
   width: 100%;
   font-weight: bold;
+  box-sizing: border-box;
 `;
 
 const CloseButton = styled.a`
@@ -76,19 +90,8 @@ export const ShoppingCartDetails = ({ close }) => {
             ))}
           </ShoppinCartItems>
           <ShoppingCartSummary>
-            <TotalAmount>
-              Total:
-              <Price>
-                &#36;
-                {shoppingCart
-                  .map((item) => parseFloat(item.price))
-                  .reduce(
-                    (previousItem, currentItem) => previousItem + currentItem,
-                    0
-                  )}
-              </Price>
-            </TotalAmount>
-            <PurchaseButton>Comprar</PurchaseButton>
+            <ShoppingCartTotal shoppingCart={shoppingCart} />
+            <PurchaseButton to="/checkout">Comprar</PurchaseButton>
           </ShoppingCartSummary>
         </>
       )}

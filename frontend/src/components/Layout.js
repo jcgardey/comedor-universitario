@@ -64,6 +64,13 @@ export const SecondaryButton = styled(Button)`
   color: ${colors.white2};
 `;
 
+export const PrimaryLink = styled(Link)`
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  ${primaryButtonStyle};
+`;
+
 export const SecondaryLink = styled(Link)`
   ${buttonStyle};
   background-color: ${colors.black};
