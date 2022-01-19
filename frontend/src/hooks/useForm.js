@@ -11,6 +11,10 @@ export const useForm = () => {
       default: '',
       value: (e) => e.target.value,
     },
+    password: {
+      default: '',
+      value: (e) => e.target.value,
+    },
     checkbox: {
       default: false,
       value: (e) => e.target.checked,
