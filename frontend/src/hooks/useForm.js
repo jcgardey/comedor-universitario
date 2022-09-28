@@ -69,16 +69,20 @@ export const useForm = () => {
     return { name, type, value, onChange, errors: fieldErrors };
   };
 
+  const isValid = () => {
+    return (
+      Object.keys(validate)
+        .map((fieldName) => validate[fieldName]())
+        .filter((isFieldValid) => !isFieldValid).length === 0
+    );
+  };
+
   const handleSubmit = (onSubmit) => {
     return (e) => {
       e.preventDefault();
-      const hasErrors =
-        Object.keys(validate)
-          .map((fieldName) => validate[fieldName]())
-          .filter((isFieldValid) => !isFieldValid).length > 0;
-      if (!hasErrors) onSubmit();
+      if (isValid()) onSubmit();
     };
   };
 
-  return { register, handleSubmit, values, errors };
+  return { register, handleSubmit, values, errors, isValid };
 };

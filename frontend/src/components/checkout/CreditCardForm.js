@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FormField, Label, TextInput } from '../Form';
+import { FormField, Label, TextInput, FieldErrors } from '../Form';
 import { Container, FlexContainer } from '../Layout';
 
 const InlineGrup = styled(FlexContainer)`
@@ -13,7 +13,15 @@ export const CreditCardForm = ({ form }) => (
   <Container>
     <FormField>
       <Label>N&uacute;mero de tarjeta</Label>
-      <TextInput {...form.register('number', 'text', { required: true })} />
+      <TextInput
+        {...form.register('number', 'text', {
+          required: true,
+          creditCard: {
+            message: 'Numero invalido',
+          },
+        })}
+      />
+      <FieldErrors errors={form.errors.number} />
     </FormField>
     <FormField>
       <Label>Titular</Label>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
+import { useSelector } from 'react-redux';
 import { RadioItemLabel } from '../Form';
-import { PrimaryLink, SectionTitle } from '../Layout';
+import { PrimaryButton, SectionTitle } from '../Layout';
 import { CreditCardForm } from './CreditCardForm';
 import { useForm } from '../../hooks/useForm';
 
@@ -36,7 +37,7 @@ const PaymentMethodDetails = styled.div`
   }
 `;
 
-const PurchaseButton = styled(PrimaryLink)`
+const PurchaseButton = styled(PrimaryButton)`
   width: 100%;
   font-weight: bold;
   box-sizing: border-box;
@@ -48,6 +49,20 @@ export const Payment = () => {
   const onMethodChange = (e) => setMethod(e.target.value);
 
   const creditCard = useForm();
+
+  const shoppingCart = useSelector((state) => state.shoppingCart);
+
+  const handlePurchase = () => {
+    if (method === 'credit_card' && creditCard.isValid()) {
+      completePurchase(creditCard.values);
+    } else if (method !== 'credit_card') {
+      completePurchase({});
+    }
+  };
+
+  const completePurchase = (payment) => {
+    console.log({ items: shoppingCart, payment });
+  };
 
   return (
     <PaymentContainer>
@@ -80,7 +95,7 @@ export const Payment = () => {
           <PaymentMethodLogo src="/media/payment/mercado_pago.png" />
         </PaymentMethodName>
       </PaymentMethod>
-      <PurchaseButton>Finalizar Compra</PurchaseButton>
+      <PurchaseButton onClick={handlePurchase}>Finalizar Compra</PurchaseButton>
     </PaymentContainer>
   );
 };

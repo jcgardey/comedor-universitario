@@ -33,4 +33,12 @@ export const formConstraints = {
     },
     message: 'Invalid date',
   },
+  creditCard: {
+    validate: (value) => {
+      const visa = /^4[0-9]{12}(?:[0-9]{3})?$/;
+      const master =
+        /^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/;
+      return value === '' || visa.test(value) || master.test(value);
+    },
+  },
 };
