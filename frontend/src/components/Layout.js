@@ -86,3 +86,16 @@ export const RightAlignedLink = styled(Link)`
 export const PrimaryIcon = styled.i`
   color: ${colors.red};
 `;
+
+export const Message = styled.p`
+  font-size: 18px;
+  text-align: center;
+`;
+
+export const ErrorMessage = styled(Message)`
+  color: ${colors.red};
+`;
+
+export const InfoMessage = styled(Message)`
+  color: ${colors.grey};
+`;

@@ -3,11 +3,18 @@ import styled from 'styled-components';
 import { useFetch } from '../../hooks/useFetch';
 import { getAllSites } from '../../services/site';
 import { FormField, Select, TextInput } from '../Form';
-import { Container, FlexContainer, Title } from '../Layout';
+import {
+  Container,
+  FlexContainer,
+  Title,
+  ErrorMessage,
+  InfoMessage,
+} from '../Layout';
 import { MenuGrid } from '../menu/MenuListPage';
 import DatePicker from '../react-datepicker/Datepicker';
 import { PurchaseItem } from './PurchaseItem';
 import { getMenusOnSaleForSiteAndDate } from '../../services/menuOnSale';
+import { Loading } from '../common/Loading';
 
 const InlineField = styled(FormField)`
   width: 30%;
@@ -21,18 +28,21 @@ export const PurchasePage = () => {
       new Date().getDate() + 2
     )
   );
-  const [site, setSite] = useState('');
+  const [site, setSite] = useState(undefined);
+  const [loading, setLoading] = useState(false);
 
   const [allSites, errors] = useFetch(getAllSites, (sites) =>
-    setSite(sites[0])
+    setSite(sites[0].id)
   );
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {
-    if (site.id !== undefined) {
-      getMenusOnSaleForSiteAndDate(site.id, date).then((response) =>
-        setMenus(response.data)
-      );
+    if (site !== undefined) {
+      setLoading(true);
+      getMenusOnSaleForSiteAndDate(site, date).then((response) => {
+        setMenus(response.data);
+        setLoading(false);
+      });
     }
   }, [site, date]);
 
@@ -51,7 +61,7 @@ export const PurchasePage = () => {
         </InlineField>
         <InlineField>
           <label>Sede</label>
-          <Select onChange={(e) => setSite(e.target.value)} value={site.id}>
+          <Select onChange={(e) => setSite(e.target.value)} value={site}>
             {allSites.map((s, i) => (
               <option value={s.id} key={i}>
                 {s.name}
@@ -60,11 +70,19 @@ export const PurchasePage = () => {
           </Select>
         </InlineField>
       </FlexContainer>
-      <MenuGrid>
-        {menus.map((menuOnSale, i) => (
-          <PurchaseItem key={i} menuOnSale={menuOnSale} />
-        ))}
-      </MenuGrid>
+      {menus.length > 0 && (
+        <MenuGrid>
+          {menus.map((menuOnSale, i) => (
+            <PurchaseItem key={i} menuOnSale={menuOnSale} />
+          ))}
+        </MenuGrid>
+      )}
+      {loading && <Loading message={'Buscando menús disponibles'} />}
+      {!loading && menus.length == 0 && (
+        <ErrorMessage>
+          No se encontraron men&uacute;s para la fecha y sede indicadas
+        </ErrorMessage>
+      )}
     </Container>
   );
 };
