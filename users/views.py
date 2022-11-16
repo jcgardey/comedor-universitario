@@ -3,9 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from users.groups import CLIENT, SITE_ADMIN, SUPER_ADMIN
 
-from users.models import SiteAdminProfile, UserProfile
+from users.models import ClientProfile, SiteAdminProfile, UserProfile
 
-from .serializers import SiteAdminProfileSerializer,UserProfileSerializer, UserSerializer
+from .serializers import SiteAdminProfileSerializer,UserProfileSerializer
 
 # Create your views here.
 
@@ -16,7 +16,7 @@ class LoggedUser(APIView):
         return serializers[userGroup]
     
     def get_profile_for_user_group(self, userGroup):
-        profiles = { SITE_ADMIN: SiteAdminProfile, SUPER_ADMIN: UserProfile, CLIENT: UserProfile }
+        profiles = { SITE_ADMIN: SiteAdminProfile, SUPER_ADMIN: UserProfile, CLIENT: ClientProfile }
         return profiles[userGroup]
 
 

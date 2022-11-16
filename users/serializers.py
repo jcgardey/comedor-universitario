@@ -23,7 +23,7 @@ class UserProfileSerializer(UserSerializer):
     user = UserSerializer()
     
     class Meta:
-        fields = ('user',)
+        fields = ('id','user')
         model = UserProfile
 
 class SiteAdminProfileSerializer(UserProfileSerializer):
