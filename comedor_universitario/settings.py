@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'frontend',
     'menus',
     'users',
-    'sites'
+    'sites',
+    'purchases'
 ]
 
 MIDDLEWARE = [
