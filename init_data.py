@@ -5,7 +5,7 @@ from users.groups import CLIENT, SITE_ADMIN, SUPER_ADMIN
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'comedor_universitario.settings')
 django.setup()
 
-from users.models import SiteAdminProfile, User, UserProfile
+from users.models import ClientProfile, SiteAdminProfile, User, UserProfile
 from django.contrib.auth.models import Group
 from sites.models import Site
 
@@ -23,7 +23,7 @@ site_admin_profile.save()
 client = User.objects.create_user('36645978', '123')
 client.groups.add(Group.objects.get(name=CLIENT))
 client.save()
-client_profile = UserProfile.objects.create(user=client)
+client_profile = ClientProfile.objects.create(user=client)
 client_profile.save()
 
 super_admin = User.objects.create_user('38679198', '123')
