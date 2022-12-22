@@ -19,7 +19,9 @@ class ClientProfileTest(TestCase):
     
     def test_create_purchase_valid(self):
         ticket_data = {'menu_on_sale': self.menu_on_sale, 'take_away':True}
+        previous_stock = self.menu_on_sale.stock
         purchase = self.client.create_purchase([ticket_data])
+        self.assertEqual(self.menu_on_sale.stock, previous_stock - 1)
         self.assertEqual(purchase.client, self.client)
         self.assertEqual(purchase.tickets.first().site, self.site)
         self.assertEqual(purchase.tickets.first().menu, self.menu)
